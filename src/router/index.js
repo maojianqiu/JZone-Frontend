@@ -46,7 +46,12 @@ export const constantRouterMap = [
       component: () => import('@/views/qanda/index'),//2.Appmain 中的 <router-view/> 中渲染指定组件
       meta: {title: '问答', icon: 'qanda'}
     },
-
+    {
+      path: 'blog',
+      name: 'blog',
+      component: () => import('@/views/blogs/blogcheck'),//2.Appmain 中的 <router-view/> 中渲染指定组件
+      meta: {title: '个人中心', icon: 'blog'}
+    },
     {
       path: 'usermanage',
       name: 'usermanage',
