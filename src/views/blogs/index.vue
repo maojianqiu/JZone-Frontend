@@ -2,20 +2,25 @@
   <div class="app-container">
     <div class="blogs">
       <div class="blog-card">
-        <el-card v-for="o in 4" :key="o"  shadow="hover" style="margin-bottom: 10px;">
-          <div  @click="handleblogCheck()">
+        <el-card
+          v-for="o in 4"
+          :key="o"
+          shadow="hover"
+          style="margin-bottom: 10px"
+        >
+          <div @click="handleblogCheck()" >
             <label class="blog-title">1博文标题</label>
-          <br />
-          <label class="blog-description" style=""
-            >以上使用标签内使用color颜色样式和css代码使用color颜色样式。
-            四、文字颜色控制一样 - TOP 传统html和css
-            文字颜色相同使用“color:”+“RGB颜色取值”即可,如颜色为黑色字以上使用标签内使用color颜色样式和css代码使用color颜色样式。
-            四、文字颜色控制一样 - TOP 传统html和css
-            文字颜色相同使用“color:”+“RGB颜色取值”即可,如颜色为黑色字</label
-          >
-          <br />
-          <el-tag class="blog-flag" size="mini">转载</el-tag>
-          <label class="blog-updatetime">2021-03-02 15:25:21</label>
+            <br />
+            <label class="blog-description" style=""
+              >以上使用标签内使用color颜色样式和css代码使用color颜色样式。
+              四、文字颜色控制一样 - TOP 传统html和css
+              文字颜色相同使用“color:”+“RGB颜色取值”即可,如颜色为黑色字以上使用标签内使用color颜色样式和css代码使用color颜色样式。
+              四、文字颜色控制一样 - TOP 传统html和css
+              文字颜色相同使用“color:”+“RGB颜色取值”即可,如颜色为黑色字</label
+            >
+            <br />
+            <el-tag class="blog-flag" size="mini">转载</el-tag>
+            <label class="blog-updatetime">2021-03-02 15:25:21</label>
           </div>
         </el-card>
       </div>
@@ -40,10 +45,10 @@ export default {
   },
   created() {},
   methods: {
-    handleblogCheck(){
-      console.log("--")
-      this.$router.push({path:'/blog',query:{id:3}});
-    }
+    handleblogCheck() {
+      console.log("--");
+      this.$router.push({ path: "/blog", query: { id: 3 } });
+    },
   },
 };
 </script>
@@ -58,7 +63,6 @@ export default {
   width: 50%;
   position: relative;
   margin-right: 20px;
-
 }
 
 .blog-title {
@@ -90,7 +94,7 @@ export default {
 
 .bolg-app {
   margin-top: 10px;
- height: 30%;
- width: 15%;
+  height: 30%;
+  width: 15%;
 }
 </style>

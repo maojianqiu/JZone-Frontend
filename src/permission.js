@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/usermanage') {
       console.log("@2");
       Message.error('请先登录')
-      next({ path: '/login' })
+      // next({ path: '/login' })
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     }
     next();

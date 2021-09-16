@@ -50,7 +50,19 @@ export const constantRouterMap = [
       path: 'blog',
       name: 'blog',
       component: () => import('@/views/blogs/blogcheck'),//2.Appmain 中的 <router-view/> 中渲染指定组件
-      meta: {title: '个人中心', icon: 'blog'}
+      meta: {title: '博文查看', icon: 'blog'}
+    },
+    {
+      path: 'blogAdd',
+      name: 'blogAdd',
+      component: () => import('@/views/blogs/blogAdd'),//2.Appmain 中的 <router-view/> 中渲染指定组件
+      meta: {title: '新增博文', icon: 'blogAdd'}
+    },
+    {
+      path: 'blogEdit',
+      name: 'blogEdit',
+      component: () => import('@/views/blogs/blogEdit'),//2.Appmain 中的 <router-view/> 中渲染指定组件
+      meta: {title: '编辑博文', icon: 'blogEdit'}
     },
     {
       path: 'usermanage',

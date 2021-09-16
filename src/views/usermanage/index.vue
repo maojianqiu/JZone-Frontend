@@ -11,6 +11,11 @@
             <el-button type="text">撤销(0)</el-button>
             <el-button type="text">审核(0)</el-button>
             <el-button type="text">草稿箱(0)</el-button>
+            <el-button
+              style="position: absolute; right: 35px"
+              @click="toBlogAdd"
+              >发布博文</el-button
+            >
           </div>
 
           <div class="blog-card">
@@ -29,7 +34,7 @@
             </el-card> -->
             <div class="blog-card" v-for="item in blists" :key="item.id">
               <el-card shadow="hover">
-                <div class="" @click="toBlogEdit(item.id)">
+                <div class="" @click="handleCheck(item.id)">
                   <label class="blog-title">{{ item.title }}</label>
                   <br />
                   <label class="blog-description" style="">{{
@@ -50,7 +55,7 @@
                 <label class="blog-updatetime">{{ item.updateTime }}</label>
 
                 <div class="blog-option">
-                  <el-button type="text" @click="handleedit(item.id)"
+                  <el-button type="text" @click="toBlogEdit(item.id)"
                     >编辑</el-button
                   >
                   <el-button type="text" @click="isDelete(item.id)"
@@ -63,10 +68,38 @@
         </el-tab-pane>
 
         <!-- 分类 -->
-        <el-tab-pane label="分类"> 2 </el-tab-pane>
+        <el-tab-pane label="分类">
+          <el-button
+              style="position: absolute; right: 35px"
+              @click="toClassifyAdd"
+              >新增分类</el-button
+            >
+          <div class="blog-card">
+            <div class="blog-card" v-for="item in classList" :key="item.id">
+              <el-card shadow="hover">
+                <div class="" >
+                  <label class="blog-title">{{ item.name }}</label>
+                  <br />
+                  <label class="blog-description" style="">{{
+                    item.description
+                  }}</label>
+                  <br />
+                </div>
+                <div class="blog-option">
+                  <el-button type="text" @click="toClassifyEdit(item.id)"
+                    >编辑</el-button
+                  >
+                  <el-button type="text" @click="isClassifyDelete(item.id)"
+                    >删除</el-button
+                  >
+                </div>
+              </el-card>
+            </div>
+          </div>
+        </el-tab-pane>
 
         <!-- 账号信息 -->
-        <el-tab-pane label="账号信息" >
+        <el-tab-pane label="账号信息">
           <div class="blog-icon">
             <el-image
               style="width: 100px; height: 100px"
@@ -139,12 +172,11 @@
             </el-form-item>
           </el-form>
           <el-button @click="updateMember">修 改</el-button>
-          
         </el-tab-pane>
       </el-tabs>
     </div>
 
-    <!-- 弹框提示 -->
+    <!-- 删除弹框提示 -->
     <el-dialog title="提示" :visible.sync="dialogVisible" width="40%">
       <span>是否删除该博文？</span>
       <span slot="footer" class="dialog-footer">
@@ -154,12 +186,48 @@
         >
       </span>
     </el-dialog>
+
+    <!-- 新增博文 -->
+    <el-dialog
+      title="添加博文分类"
+      :visible.sync="dialogVisible"
+      width="40%"
+    >
+      <el-form
+        :model="classify"
+        ref="classifyForm"
+        label-width="150px"
+        size="small"
+      >
+        <el-form-item label="分类名称：">
+          <el-input v-model="classify.name" style="width: 250px"></el-input>
+        </el-form-item>
+        <el-form-item label="所属用户：">
+          <el-input v-model="classify.umsId" style="width: 250px"></el-input>
+        </el-form-item>
+        <!-- <el-form-item label="描述：">
+          <el-input
+            v-model="classify.description"
+            type="textarea"
+            :rows="5"
+            style="width: 250px"
+          ></el-input>
+        </el-form-item> -->
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="handleDialogConfirm()" size="small"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import {  getInfo,updateMember } from '@/api/mem_login'
-import {  bloglist } from '@/api/bmsb'
+import {classList,createClassify,updateClassify,deleteClassify,} from "@/api/bmsb";
+import { getInfo, updateMember } from "@/api/mem_login";
+import { bloglist } from "@/api/bmsb";
 
 export default {
   name: "usermanage",
@@ -196,61 +264,141 @@ export default {
         birthday: "",
         city: "",
         job: "",
-      },
+     
+     
+     
+     },
+      classify:{
+        id: null,
+        name: null,
+        usmId: null,
+      },    
+      classList:[],
 
       dialogVisible: false, //是否显示对话框/弹框
+      listLoading: false,
     };
   },
   created() {
-      bloglist().then(response => {
+    bloglist()
+      .then((response) => {
         this.blists = response.data.list;
-
-      }).catch(error => {
       })
+      .catch((error) => {});
   },
   methods: {
+    toBlogAdd() {
+      this.$router.push({ path: "/blogAdd" });
+    },
     toBlogEdit(id) {
       console.log(id);
-      // this.$router.push({path:'/',query:{id:}});
+      this.$router.push({ path: "/blogEdit", query: { id: id } });
     },
-    handleedit(id) {
+    handleCheck(id) {
       console.log(id);
-      // this.$router.push({path:'/',query:{id:}});
+      this.$router.push({ path: "/blog", query: { id: id } });
     },
     isDelete(id) {
       console.log(id);
       this.dialogVisible = true;
       // this.$router.push({path:'/',query:{id:}});
     },
-    clickTab(targetName){
-        console.log(targetName.label);
+    // ------classify
+    getList() {
+      this.listLoading = true;
+      classList().then((response) => {
+        this.listLoading = false;
+        this.classList = response.data.list;
+      });
+    },
+    toClassifyAdd() {
+      this.dialogVisible = true;
+    },
+    handleDialogConfirm() {
+      this.$confirm("是否要确认?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        if (this.isEdit) {
+          updateClassify(this.classify).then((response) => {
+            this.$message({
+              message: "修改成功！",
+              type: "success",
+            });
+            this.dialogVisible = false;
+            this.getList();
+          });
+        } else {
+          createClassify(this.classify).then((response) => {
+            this.$message({
+              message: "添加成功！",
+              type: "success",
+            });
+            this.dialogVisible = false;
+            this.getList();
+          });
+        }
+      });
+    },
+    handleDelete(index, row) {
+      this.$confirm("是否要删除该博文分类?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        let ids = [];
+        ids.push(row.id);
+        let params = new URLSearchParams();
+        params.append("ids", ids);
+        deleteClassify(params).then((response) => {
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+          this.getList();
+        });
+      });
+    },
+    toClassifyEdit(){
+      console.log(id);
+    },
+    isClassifyDelete(id) {
+      console.log(id);
+     // this.dialogVisible = true;
+      // this.$router.push({path:'/',query:{id:}});
+    },
+
+
+    clickTab(targetName) {
+      console.log(targetName.label);
       const curlable = targetName.label;
-      if(curlable == '账号信息'){
-        getInfo().then(response => {
-          this.member = response.data
-
-        }).catch(error => {
-        })
-      }else if(curlable == '博文'){
-        bloglist().then(response => {
-          this.blists = response.data.list;
-
-        }).catch(error => {
-        })
+      if (curlable == "账号信息") {
+        getInfo()
+          .then((response) => {
+            this.member = response.data;
+          })
+          .catch((error) => {});
+      } else if (curlable == "博文") {
+        bloglist()
+          .then((response) => {
+            this.blists = response.data.list;
+          })
+          .catch((error) => {});
       }
-    },    
-    updateMember(){
+    },
+    updateMember() {
       console.log(this.member);
-      updateMember(this.member).then(response => {
-        this.$message({
+      updateMember(this.member)
+        .then((response) => {
+          this.$message({
             message: "修改成功",
             type: "success",
             duration: 1000,
           });
-
-      }).catch(error => {
-      })
-    }
+        })
+        .catch((error) => {});
+    },
   },
 };
 </script>
