@@ -11,8 +11,9 @@
             <el-button type="text">撤销(0)</el-button>
             <el-button type="text">审核(0)</el-button>
             <el-button type="text">草稿箱(0)</el-button>
+            <el-button style="position: absolute;right:35px;" >发布博文</el-button>
           </div>
-
+          
           <div class="blog-card">
             <!-- <el-card shadow="hover">
               <label class="blog-title">博文标题</label>
@@ -209,9 +210,13 @@ export default {
       })
   },
   methods: {
+    toBlogAdd(id) {
+      console.log(id);
+      this.$router.push({path:'/blogAdd'});
+    },
     toBlogEdit(id) {
       console.log(id);
-      // this.$router.push({path:'/',query:{id:}});
+      this.$router.push({path:'/blogEdit',query:{id:1}});
     },
     handleedit(id) {
       console.log(id);
