@@ -9,22 +9,66 @@
       
       
       <el-card class="blog-content">
-        <h1>有奖征文 | 会写文章的程序员到底有多吃香？</h1>
-        <br/>
-        <label class="blog-date">2021.04.21 16:02</label> 
-        <label class="blog-date">13053浏览</label>
+        <label style="font-size:35px; font-weight:bold;">{{blog.title}}</label>
+        <br/><br/>
+        <div style="background-color: #f5f6f7;padding:5px 10px">
+          <el-tag class="blog-flag" size="mini">{{
+                    blog.flag == 0 ? "转载" : "原创"
+                  }}</el-tag>
+          <label class="blog-date">{{blog.updateTime | formatDateTime}}</label> 
+          <label class="blog-date">10000 浏览</label>
+        </div>
+        <br/><br/>
+        <mavon-editor
+        class="md"
+        :value="blog.content"
+        :subfield="false"
+        :defaultOpen="'preview'"
+        :toolbarsFlag="false"
+        :editable="false"
+        :scrollStyle="true"
+        :ishljs="true"
+        :boxShadow="false"
+        :previewBackground="'#ffffff'"
+        style="border: 1px solid #ffffff;padding: 0px 0px 5px 5px;"
+      />
+
       </el-card>
     </div>
   </div>
 </template>
 
 <script>
+import { getBlogInfo} from "@/api/bmsb";
+import { formatDate } from "@/utils/date";
+import { mavonEditor } from "mavon-editor";
+
 export default {
   name: "blogCheck",
   data() {
-    return {};
+    return {
+      blog:{},
+    };
   },
-  created() {},
+  components: {
+    mavonEditor,
+  },
+  created() {
+    getBlogInfo(this.$route.query.id).then((response) => {
+        this.blog = response.data;
+        console.log(this.blog);
+      });
+  },
+   filters: {
+    formatDateTime(time) {
+      console.log(time);
+      if (time == null || time === "") {
+        return "N/A";
+      }
+      let date = new Date(time);
+      return formatDate(date, "yyyy-MM-dd hh:mm:ss");
+    },
+  },
   methods: {},
 };
 </script>

@@ -43,11 +43,13 @@ export default {
   data() {
     return {};
   },
-  created() {},
+  created() {
+    
+  },
   methods: {
     handleblogCheck() {
       console.log("--");
-      this.$router.push({ path: "/blog", query: { id: 3 } });
+      this.$router.push({ path: "/blog", query: { id: 4 } });
     },
   },
 };

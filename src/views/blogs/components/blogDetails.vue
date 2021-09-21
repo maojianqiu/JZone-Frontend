@@ -254,15 +254,14 @@ export default {
   
     },
     handleDialogConfirm() {
+      console.log(this.checked)
       if (this.checked == false) {
         this.$message({
             message: "转载文章需要确定原文是否可转载",
             type: "warning",
             duration: 3000,
           });
-          return;
-      }
-      if (this.blog.flagUrl =="" || this.blog.flagUrl ==null) {
+          if (this.blog.flagUrl =="" || this.blog.flagUrl ==null) {
           this.$message({
             message:"请填写原文链接",
             type: "warning",
@@ -270,6 +269,15 @@ export default {
           });
           return;
       }
+      }
+      // if (this.checked == false && (this.blog.flagUrl =="" || this.blog.flagUrl ==null)) {
+      //     this.$message({
+      //       message:"请填写原文链接",
+      //       type: "warning",
+      //       duration: 3000,
+      //     });
+      //     return;
+      // }
       if (this.isEdit) {
         updateBlog(this.blog).then((response) => {
           this.$message({
