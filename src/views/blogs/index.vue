@@ -3,24 +3,20 @@
     <div class="blogs">
       <div class="blog-card">
         <el-card
-          v-for="o in 4"
-          :key="o"
+          v-for="blog in blists"
+          :key="blog.id"
           shadow="hover"
           style="margin-bottom: 10px"
         >
-          <div @click="handleblogCheck()" >
-            <label class="blog-title">1博文标题</label>
+          <div @click="handleblogCheck(blog.id)" >
+            <label class="blog-title">{{blog.title}}</label>
             <br />
             <label class="blog-description" style=""
-              >以上使用标签内使用color颜色样式和css代码使用color颜色样式。
-              四、文字颜色控制一样 - TOP 传统html和css
-              文字颜色相同使用“color:”+“RGB颜色取值”即可,如颜色为黑色字以上使用标签内使用color颜色样式和css代码使用color颜色样式。
-              四、文字颜色控制一样 - TOP 传统html和css
-              文字颜色相同使用“color:”+“RGB颜色取值”即可,如颜色为黑色字</label
+              >{{blog.description}}</label
             >
             <br />
-            <el-tag class="blog-flag" size="mini">转载</el-tag>
-            <label class="blog-updatetime">2021-03-02 15:25:21</label>
+            <el-tag class="blog-flag" size="mini">{{blog.flag == 0 ? "转载" : "原创"}}</el-tag>
+            <label class="blog-updatetime">{{ blog.updateTime | formatDateTime}}</label>
           </div>
         </el-card>
       </div>
@@ -38,18 +34,42 @@
 </template>
 
 <script>
+import { bloglists , getBlogInfo} from "@/api/blogs";
+import { formatDate } from "@/utils/date";
+
 export default {
   name: "blogs",
   data() {
-    return {};
+    return {
+      blists:[],
+    };
   },
   created() {
-    
+    bloglists()
+      .then((response) => {
+        this.blists = response.data.list;
+      })
+      .catch((error) => {});
+  },
+   filters: {
+    formatDateTime(time) {
+      console.log(time);
+      if (time == null || time === "") {
+        return "N/A";
+      }
+      let date = new Date(time);
+      return formatDate(date, "yyyy-MM-dd hh:mm:ss");
+    },
   },
   methods: {
-    handleblogCheck() {
+    handleblogCheck(id) {
       console.log("--");
-      this.$router.push({ path: "/blog", query: { id: 4 } });
+      let routeData = this.$router.resolve({
+        name: "blog",
+        query: { id: id } 
+      });
+      window.open(routeData.href, '_blank');
+      //this.$router.push({ path: "/blog", query: { id: id } });
     },
   },
 };

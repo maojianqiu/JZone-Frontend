@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { getBlogInfo} from "@/api/bmsb";
+import { getBlogInfo} from "@/api/blogs";
 import { formatDate } from "@/utils/date";
 import { mavonEditor } from "mavon-editor";
 
@@ -92,7 +92,8 @@ export default {
 
 .blog-content {
   width: 62%;
-  height: 500px;
+  _height:200px; 
+  min-height:200px;
   margin-left: 20px;
 }
 
