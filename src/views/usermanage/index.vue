@@ -18,7 +18,7 @@
             >
           </div>
 
-          <div class="blog-card">
+          <div class="blogs-card">
             <!-- <el-card shadow="hover">
               <label class="blog-title">博文标题</label>
               <br/>
@@ -46,13 +46,13 @@
                   class="blog-caogao"
                   type="info"
                   size="mini"
-                  v-show="item.state == 0"
-                  >草稿</el-tag
+                  v-show="item.state == 0 || item.state == 1 || item.state == 3 "
+                  >{{item.state == 0 ? "草稿": item.state == 1 ? "审核中":"未通过"}}</el-tag
                 >
                 <el-tag class="blog-flag" size="mini">{{
                   item.flag == 0 ? "转载" : "原创"
                 }}</el-tag>
-                <label class="blog-updatetime">{{ item.updateTime }}</label>
+                <label class="blog-updatetime">{{ item.updateTime | formatDateTime}}</label>
 
                 <div class="blog-option">
                   <el-button type="text" @click="toBlogEdit(item.id)"
@@ -228,6 +228,7 @@
 import {classList,createClassify,updateClassify,deleteClassify,} from "@/api/bmsb";
 import { getInfo, updateMember } from "@/api/mem_login";
 import { bloglist } from "@/api/bmsb";
+import { formatDate } from "@/utils/date";
 
 export default {
   name: "usermanage",
@@ -278,6 +279,16 @@ export default {
       dialogVisible: false, //是否显示对话框/弹框
       listLoading: false,
     };
+  },
+   filters: {
+    formatDateTime(time) {
+      console.log(time);
+      if (time == null || time === "") {
+        return "N/A";
+      }
+      let date = new Date(time);
+      return formatDate(date, "yyyy-MM-dd hh:mm:ss");
+    },
   },
   created() {
     bloglist()
@@ -407,9 +418,18 @@ export default {
 .homeMain {
   width: 70%;
   margin: auto;
+
 }
 .homeMain .el-tabs {
-  height: 600px;
+  
+  height:600px;
+
+
+
+}
+.homeMain .el-tabs__content {
+  height:600px;
+  overflow-y: auto;
 }
 
 .homeMain .el-tabs--border-card > .el-tabs__header .el-tabs__item {

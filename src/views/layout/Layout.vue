@@ -81,7 +81,7 @@ export default {
   },
   data() {
     return {
-      activeIndex: "/home",
+      activeIndex: "",
     };
   },
   methods: {
