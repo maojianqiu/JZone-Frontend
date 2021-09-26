@@ -15,8 +15,13 @@
           <el-tag class="blog-flag" size="mini">{{
                     blog.flag == 0 ? "转载" : "原创"
                   }}</el-tag>
+          <label class="blog-nickname">{{blog.nickname}}</label> 
           <label class="blog-date">{{blog.updateTime | formatDateTime}}</label> 
           <label class="blog-date">10000 浏览</label>
+          <br/>
+          <el-tag class="blog-tags" size="mini" type="info" v-for="item in blog.tags" :key="item.id">{{
+                    item.name
+                  }}</el-tag>
         </div>
         <br/><br/>
         <mavon-editor
@@ -101,5 +106,18 @@ export default {
   font-size: 12px;
   color: rgb(134, 134, 134);
   margin-right: 30px;
+}
+
+.blog-content .blog-nickname{
+  font-size: 12px;
+  color: rgb(58 58 58);
+  margin-left: 10px;
+  margin-right: 30px;
+}
+
+
+.blog-content .blog-tags {
+  margin-top:10px;
+  margin-right: 10px;
 }
 </style>
