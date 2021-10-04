@@ -29,6 +29,7 @@
         :value="blog.content"
         :subfield="false"
         :defaultOpen="'preview'"
+        :navigation="true"
         :toolbarsFlag="false"
         :editable="false"
         :scrollStyle="true"

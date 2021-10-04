@@ -36,7 +36,7 @@
         ref="md"
         @imgAdd="imgAdd"
         @change="change"
-        style="min-height: 600px"
+        style="height: 600px"
       />
     </div>
 

@@ -1,10 +1,15 @@
 <template>
   <div class="app-container">
     <div class="homeMain">
+      <el-button
+      style="position: absolute; right: 35px"
+      @click="toBlogAdd"
+      >发布博文</el-button
+      >
       <el-tabs type="border-card" tabPosition="left" @tab-click="clickTab">
         <!-- 博文 -->
         <el-tab-pane label="博文">
-          <div class="find-top">
+          <!-- <div class="find-top">
             <el-button type="text" disabled>状态</el-button>
             <el-button class="is-active" type="text">全部(0)</el-button>
             <el-button type="text">发布(0)</el-button>
@@ -16,76 +21,217 @@
               @click="toBlogAdd"
               >发布博文</el-button
             >
+          </div> -->
+
+          <div class= "blogStatus">
+            <el-tabs  v-model="blogStatusActiveName" @tab-click="handleBlogStatusClick">
+              <el-tab-pane label="全部" name="100">
+                <div class="blogs-card">
+                  <!-- <el-card shadow="hover">
+                    <label class="blog-title">博文标题</label>
+                    <br/>
+                    <label class="blog-description" style="">以上使用标签内使用color颜色样式和css代码使用color颜色样式。 四、文字颜色控制一样 - TOP 传统html和css 文字颜色相同使用“color:”+“RGB颜色取值”即可,如颜色为黑色字以上使用标签内使用color颜色样式和css代码使用color颜色样式。 四、文字颜色控制一样 - TOP 传统html和css 文字颜色相同使用“color:”+“RGB颜色取值”即可,如颜色为黑色字</label>
+                    <br/>
+                    <el-tag class="blog-caogao" type="info" size="mini">草稿</el-tag>
+                    <el-tag class="blog-flag" size="mini">转载</el-tag>
+                    <label class="blog-updatetime" >2021-03-02 15:25:21</label>
+                    <div class="blog-option">
+                      <el-button type="text">编辑</el-button>
+                      <el-button type="text">删除</el-button>
+                    </div>
+                  </el-card> -->
+                  <div class="blog-card" v-for="item in blists" :key="item.id">
+                    <el-card shadow="hover">
+                      <div class="" @click="handleCheck(item.id)">
+                        <label class="blog-title">{{ item.title }}</label>
+                        <br />
+                        <label class="blog-description" style="">{{
+                          item.description
+                        }}</label>
+                        <br />
+                      </div>
+                      <el-tag
+                        class="blog-caogao"
+                        type="info"
+                        size="mini"
+                        v-show="item.state == 0 || item.state == 1 || item.state == 3 "
+                        >{{item.state == 0 ? "草稿": item.state == 1 ? "审核中":"未通过"}}</el-tag
+                      >
+                      <el-tag class="blog-flag" size="mini">{{
+                        item.flag == 0 ? "转载" : "原创"
+                      }}</el-tag>
+                      <label class="blog-updatetime">{{ item.updateTime | formatDateTime}}</label>
+
+                      <div class="blog-option">
+                        <el-button type="text" @click="toBlogEdit(item.id)"
+                          >编辑</el-button
+                        >
+                        <el-button type="text" @click="isDelete(item.id)"
+                          >删除</el-button
+                        >
+                      </div>
+                    </el-card>
+                  </div>
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="已发布" name="2">
+              <div class="blog-card" v-for="item in blists" :key="item.id">
+                    <el-card shadow="hover">
+                      <div class="" @click="handleCheck(item.id)">
+                        <label class="blog-title">{{ item.title }}</label>
+                        <br />
+                        <label class="blog-description" style="">{{
+                          item.description
+                        }}</label>
+                        <br />
+                      </div>
+                      <el-tag
+                        class="blog-caogao"
+                        type="info"
+                        size="mini"
+                        v-show="item.state == 0 || item.state == 1 || item.state == 3 "
+                        >{{item.state == 0 ? "草稿": item.state == 1 ? "审核中":"未通过"}}</el-tag
+                      >
+                      <el-tag class="blog-flag" size="mini">{{
+                        item.flag == 0 ? "转载" : "原创"
+                      }}</el-tag>
+                      <label class="blog-updatetime">{{ item.updateTime | formatDateTime}}</label>
+
+                      <div class="blog-option">
+                        <el-button type="text" @click="toBlogEdit(item.id)"
+                          >编辑</el-button
+                        >
+                        <el-button type="text" @click="isDelete(item.id)"
+                          >删除</el-button
+                        >
+                      </div>
+                    </el-card>
+                  </div>
+              </el-tab-pane>
+              <el-tab-pane label="审核中" name="1">
+              <div class="blog-card" v-for="item in blists" :key="item.id">
+                    <el-card shadow="hover">
+                      <div class="" @click="handleCheck(item.id)">
+                        <label class="blog-title">{{ item.title }}</label>
+                        <br />
+                        <label class="blog-description" style="">{{
+                          item.description
+                        }}</label>
+                        <br />
+                      </div>
+                      <el-tag
+                        class="blog-caogao"
+                        type="info"
+                        size="mini"
+                        v-show="item.state == 0 || item.state == 1 || item.state == 3 "
+                        >{{item.state == 0 ? "草稿": item.state == 1 ? "审核中":"未通过"}}</el-tag
+                      >
+                      <el-tag class="blog-flag" size="mini">{{
+                        item.flag == 0 ? "转载" : "原创"
+                      }}</el-tag>
+                      <label class="blog-updatetime">{{ item.updateTime | formatDateTime}}</label>
+
+                      <div class="blog-option">
+                        <el-button type="text" @click="toBlogEdit(item.id)"
+                          >编辑</el-button
+                        >
+                        <el-button type="text" @click="isDelete(item.id)"
+                          >删除</el-button
+                        >
+                      </div>
+                    </el-card>
+                  </div>
+              </el-tab-pane>
+              <el-tab-pane label="未通过" name="3">
+              <div class="blog-card" v-for="item in blists" :key="item.id">
+                    <el-card shadow="hover">
+                      <div class="" @click="handleCheck(item.id)">
+                        <label class="blog-title">{{ item.title }}</label>
+                        <br />
+                        <label class="blog-description" style="">{{
+                          item.description
+                        }}</label>
+                        <br />
+                      </div>
+                      <el-tag
+                        class="blog-caogao"
+                        type="info"
+                        size="mini"
+                        v-show="item.state == 0 || item.state == 1 || item.state == 3 "
+                        >{{item.state == 0 ? "草稿": item.state == 1 ? "审核中":"未通过"}}</el-tag
+                      >
+                      <el-tag class="blog-flag" size="mini">{{
+                        item.flag == 0 ? "转载" : "原创"
+                      }}</el-tag>
+                      <label class="blog-updatetime">{{ item.updateTime | formatDateTime}}</label>
+
+                      <div class="blog-option">
+                        <el-button type="text" @click="toBlogEdit(item.id)"
+                          >编辑</el-button
+                        >
+                        <el-button type="text" @click="isDelete(item.id)"
+                          >删除</el-button
+                        >
+                      </div>
+                    </el-card>
+                  </div>
+              </el-tab-pane>
+              <el-tab-pane label="草稿" name="0">
+              <div class="blog-card" v-for="item in blists" :key="item.id">
+                    <el-card shadow="hover">
+                      <div class="" @click="handleCheck(item.id)">
+                        <label class="blog-title">{{ item.title }}</label>
+                        <br />
+                        <label class="blog-description" style="">{{
+                          item.description
+                        }}</label>
+                        <br />
+                      </div>
+                      <el-tag
+                        class="blog-caogao"
+                        type="info"
+                        size="mini"
+                        v-show="item.state == 0 || item.state == 1 || item.state == 3 "
+                        >{{item.state == 0 ? "草稿": item.state == 1 ? "审核中":"未通过"}}</el-tag
+                      >
+                      <el-tag class="blog-flag" size="mini">{{
+                        item.flag == 0 ? "转载" : "原创"
+                      }}</el-tag>
+                      <label class="blog-updatetime">{{ item.updateTime | formatDateTime}}</label>
+
+                      <div class="blog-option">
+                        <el-button type="text" @click="toBlogEdit(item.id)"
+                          >编辑</el-button
+                        >
+                        <el-button type="text" @click="isDelete(item.id)"
+                          >删除</el-button
+                        >
+                      </div>
+                    </el-card>
+                  </div>
+              </el-tab-pane>
+
+            </el-tabs>
+
           </div>
 
-          <div class="blogs-card">
-            <!-- <el-card shadow="hover">
-              <label class="blog-title">博文标题</label>
-              <br/>
-              <label class="blog-description" style="">以上使用标签内使用color颜色样式和css代码使用color颜色样式。 四、文字颜色控制一样 - TOP 传统html和css 文字颜色相同使用“color:”+“RGB颜色取值”即可,如颜色为黑色字以上使用标签内使用color颜色样式和css代码使用color颜色样式。 四、文字颜色控制一样 - TOP 传统html和css 文字颜色相同使用“color:”+“RGB颜色取值”即可,如颜色为黑色字</label>
-              <br/>
-              <el-tag class="blog-caogao" type="info" size="mini">草稿</el-tag>
-              <el-tag class="blog-flag" size="mini">转载</el-tag>
-              <label class="blog-updatetime" >2021-03-02 15:25:21</label>
-              <div class="blog-option">
-                <el-button type="text">编辑</el-button>
-                <el-button type="text">删除</el-button>
-              </div>
-            </el-card> -->
-            <div class="blog-card" v-for="item in blists" :key="item.id">
-              <el-card shadow="hover">
-                <div class="" @click="handleCheck(item.id)">
-                  <label class="blog-title">{{ item.title }}</label>
-                  <br />
-                  <label class="blog-description" style="">{{
-                    item.description
-                  }}</label>
-                  <br />
-                </div>
-                <el-tag
-                  class="blog-caogao"
-                  type="info"
-                  size="mini"
-                  v-show="item.state == 0 || item.state == 1 || item.state == 3 "
-                  >{{item.state == 0 ? "草稿": item.state == 1 ? "审核中":"未通过"}}</el-tag
-                >
-                <el-tag class="blog-flag" size="mini">{{
-                  item.flag == 0 ? "转载" : "原创"
-                }}</el-tag>
-                <label class="blog-updatetime">{{ item.updateTime | formatDateTime}}</label>
-
-                <div class="blog-option">
-                  <el-button type="text" @click="toBlogEdit(item.id)"
-                    >编辑</el-button
-                  >
-                  <el-button type="text" @click="isDelete(item.id)"
-                    >删除</el-button
-                  >
-                </div>
-              </el-card>
-            </div>
-          </div>
+          
         </el-tab-pane>
 
         <!-- 分类 -->
         <el-tab-pane label="分类">
+          
           <el-button
-              style="position: absolute; right: 35px"
               @click="toClassifyAdd"
               >新增分类</el-button
             >
-          <div class="blog-card">
-            <div class="blog-card" v-for="item in classList" :key="item.id">
+          <div class="classify-card">
+            <div class="classify-card" v-for="item in classList" :key="item.id">
               <el-card shadow="hover">
                 <div class="" >
-                  <label class="blog-title">{{ item.name }}</label>
-                  <br />
-                  <label class="blog-description" style="">{{
-                    item.description
-                  }}</label>
-                  <br />
+                  <label class="classify-title">{{ item.name }}</label>
                 </div>
-                <div class="blog-option">
+                <div class="classify-option">
                   <el-button type="text" @click="toClassifyEdit(item.id)"
                     >编辑</el-button
                   >
@@ -216,7 +362,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="handleDialogConfirm()" size="small"
+        <el-button type="primary" @click="handleClassifyDialogConfirm()" size="small"
           >确 定</el-button
         >
       </span>
@@ -234,6 +380,8 @@ export default {
   name: "usermanage",
   data() {
     return {
+      blogStatusActiveName: '100',
+
       blists: [],
       // [
       //   {
@@ -282,7 +430,6 @@ export default {
   },
    filters: {
     formatDateTime(time) {
-      console.log(time);
       if (time == null || time === "") {
         return "N/A";
       }
@@ -291,13 +438,46 @@ export default {
     },
   },
   created() {
-    bloglist()
+      const params = {
+        state:100
+      };
+      bloglist(params)
       .then((response) => {
         this.blists = response.data.list;
       })
       .catch((error) => {});
+
+    classList()
+      .then((response) => {
+        this.classList = response.data.list;
+      })
+      .catch((error) => {})
   },
   methods: {
+    //----------------------------tag
+
+    clickTab(targetName) {
+      console.log(targetName.label);
+      const curlable = targetName.label;
+      if (curlable == "账号信息") {
+        getInfo()
+          .then((response) => {
+            this.member = response.data;
+          })
+          .catch((error) => {});
+      } else if (curlable == "博文") {
+        const params = {
+          state:100
+        };
+        bloglist(params)
+          .then((response) => {
+            this.blists = response.data.list;
+          })
+          .catch((error) => {});
+      }
+    },
+
+    //---------------------------blog 
     toBlogAdd() {
       this.$router.push({ path: "/blogAdd" });
     },
@@ -314,8 +494,21 @@ export default {
       this.dialogVisible = true;
       // this.$router.push({path:'/',query:{id:}});
     },
+    handleBlogStatusClick(tab, event) {
+        console.log(this.blogStatusActiveName);
+        const params = {
+          state:this.blogStatusActiveName
+        };
+        
+        bloglist(params)
+        .then((response) => {
+          this.blists = response.data.list;
+        })
+        .catch((error) => {});
+    },
+
     // ------classify
-    getList() {
+    getClassifyList() {
       this.listLoading = true;
       classList().then((response) => {
         this.listLoading = false;
@@ -325,7 +518,7 @@ export default {
     toClassifyAdd() {
       this.dialogVisible = true;
     },
-    handleDialogConfirm() {
+    handleClassifyDialogConfirm() {
       this.$confirm("是否要确认?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -338,7 +531,7 @@ export default {
               type: "success",
             });
             this.dialogVisible = false;
-            this.getList();
+            this.getClassifyList();
           });
         } else {
           createClassify(this.classify).then((response) => {
@@ -347,12 +540,12 @@ export default {
               type: "success",
             });
             this.dialogVisible = false;
-            this.getList();
+            this.getClassifyList();
           });
         }
       });
     },
-    handleDelete(index, row) {
+    handleClassifyDelete(index, row) {
       this.$confirm("是否要删除该博文分类?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -367,7 +560,7 @@ export default {
             type: "success",
             message: "删除成功!",
           });
-          this.getList();
+          this.getClassifyList();
         });
       });
     },
@@ -381,23 +574,7 @@ export default {
     },
 
 
-    clickTab(targetName) {
-      console.log(targetName.label);
-      const curlable = targetName.label;
-      if (curlable == "账号信息") {
-        getInfo()
-          .then((response) => {
-            this.member = response.data;
-          })
-          .catch((error) => {});
-      } else if (curlable == "博文") {
-        bloglist()
-          .then((response) => {
-            this.blists = response.data.list;
-          })
-          .catch((error) => {});
-      }
-    },
+    //------------------------账号
     updateMember() {
       console.log(this.member);
       updateMember(this.member)
@@ -447,6 +624,27 @@ export default {
   color: #c8291c;
 }
 
+.blogStatus .el-tabs > .el-tabs__header .el-tabs__item {
+  height: 50px;
+  font-size: 16px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #727171;
+  text-align: center;
+}
+.blogStatus .el-tabs  > .el-tabs__header .el-tabs__item:hover {
+  color: #c8291c;
+}
+.blogStatus .el-tabs  > .el-tabs__header .el-tabs__item.is-active {
+  color: #c8291c;
+}
+
+.blogStatus .el-tabs  > .el-tabs__header .el-tabs__active-bar {
+  background-color: #c8291c;
+}
+
+
+
 .find-top .el-button--text {
   color: #c0c4cc;
 }
@@ -470,6 +668,7 @@ export default {
   position: absolute;
   right: 35px;
 }
+
 .blog-description {
   margin-top: 10px;
   font-size: 12px;
