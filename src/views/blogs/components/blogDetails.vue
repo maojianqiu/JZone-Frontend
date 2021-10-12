@@ -112,7 +112,7 @@
               placeholder="请输入原文链接"
             ></el-input>
             <el-checkbox
-              v-model="checked"
+              v-model="flagChecked"
               :rules="[
                 { required: true, message: '请输入原文链接', trigger: 'blur' },
               ]"
@@ -199,8 +199,7 @@ export default {
       html: "",
       dialogVisible: false, //是否显示对话框/弹框
       blog: Object.assign({}, defaultBlog),
-      checked: true,
-      checkedClassify: [],
+      flagChecked: true,
       classifys: [],
     };
   },
@@ -254,8 +253,8 @@ export default {
   
     },
     handleDialogConfirm() {
-      console.log(this.checked)
-      if (this.checked == false) {
+      console.log(this.flagChecked)
+      if (this.flagChecked == false) {
         this.$message({
             message: "转载文章需要确定原文是否可转载",
             type: "warning",
@@ -270,7 +269,7 @@ export default {
           return;
       }
       }
-      // if (this.checked == false && (this.blog.flagUrl =="" || this.blog.flagUrl ==null)) {
+      // if (this.flagChecked == false && (this.blog.flagUrl =="" || this.blog.flagUrl ==null)) {
       //     this.$message({
       //       message:"请填写原文链接",
       //       type: "warning",
@@ -285,6 +284,7 @@ export default {
             type: "success",
             duration: 1000,
           });
+          this.dynamicTags = [];
           this.$router.back();
         });
       } else {
@@ -294,6 +294,7 @@ export default {
             type: "success",
             duration: 1000,
           });
+          this.dynamicTags = [];
           this.$router.back();
         });
       }
