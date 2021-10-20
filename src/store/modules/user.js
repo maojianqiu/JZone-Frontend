@@ -5,6 +5,7 @@ const user = {
   state: {
     token: getToken(),
     name: '',
+    userid:'',
     avatar: '',
     roles: []
   },
@@ -16,6 +17,10 @@ const user = {
     },
     SET_NAME: (state, name) => {
       state.name = name
+    },
+    SET_USERID: (state, userid) => {
+      state.userid = userid
+      // console.log("===="+state.userid)
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
@@ -57,8 +62,11 @@ const user = {
           // } else {
           //   reject('getInfo: roles must be a non-null array !')
           // }
+          
           commit('SET_NAME', data.username)
+          commit('SET_USERID', data.id)
           commit('SET_AVATAR', data.icon)
+          
           resolve(response)
         }).catch(error => {
           reject(error)

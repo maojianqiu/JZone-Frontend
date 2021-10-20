@@ -50,3 +50,10 @@ export function logout() {
     method: 'post'
   })
 }
+
+export function getMemeberInfo(id) {
+  return request({
+    url: '/sso/getMemeberInfo/'+ id,
+    method: 'get'
+  })
+}

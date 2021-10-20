@@ -53,7 +53,7 @@ export default {
   },
    filters: {
     formatDateTime(time) {
-      console.log(time);
+      // console.log(time);
       if (time == null || time === "") {
         return "N/A";
       }

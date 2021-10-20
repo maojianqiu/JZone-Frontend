@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <label class="blog-date">2021.04.21 16:02</label> 
+    <label class="blog-date">home</label> 
   </div>
 </template>
 

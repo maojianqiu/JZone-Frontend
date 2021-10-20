@@ -76,7 +76,8 @@ export default {
   computed: {
     ...mapGetters([
       'avatar',
-      'name'
+      'name',
+      'userid'
     ])
   },
   data() {
@@ -90,7 +91,7 @@ export default {
       this.$router.push({ path: key })
     },
     userhomeClick(){
-      this.$router.push('/' + this.name);
+      this.$router.push({ path:'/' + this.name, query: { id: this.userid } });
     },
     userManageClick(){
       this.$router.push('/usermanage');

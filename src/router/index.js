@@ -75,7 +75,8 @@ export const constantRouterMap = [
       name: 'userhome',
       component: () => import('@/views/userhome/index'),//2.Appmain 中的 <router-view/> 中渲染指定组件
       meta: {title: '个人主页', icon: 'userhome'}
-    }
+    },
+
   ]
   }
 ]

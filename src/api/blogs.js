@@ -15,3 +15,11 @@ export function bloglists(params) {
       method: 'get',
     })
   }
+
+
+  export function getViewBlogListByUserID(id) {
+    return request({
+      url: '/blogs/blogViewListByUserID/'+ id,
+      method: 'get',
+    })
+  }
