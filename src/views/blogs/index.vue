@@ -8,25 +8,35 @@
           shadow="hover"
           style="margin-bottom: 10px"
         >
-          <div @click="handleblogCheck(blog.id)" >
-            <label class="blog-title">{{blog.title}}</label>
-            <br />
-            <label class="blog-description" style=""
-              >{{blog.description}}</label
-            >
-            <br />
-            <el-tag class="blog-flag" size="mini">{{blog.flag == 0 ? "转载" : "原创"}}</el-tag>
-            <label class="blog-updatetime">{{ blog.updateTime | formatDateTime}}</label>
+          <div  >
+            <div @click="handleblogCheck(blog.id)">
+              <label class="blog-title">{{blog.title}}</label>
+              <br />
+              <label class="blog-description" style=""
+                >{{blog.description}}</label
+              >
+            </div>
+
+            <div style="height: 25px ;display: flex;" @click="handleblogMemCheck(blog.umsId)">
+              <img
+              style=" height: 100%;border-radius:20%;"
+              :src="blog.icon"
+              ></img>
+              <label class="blog-memname" style="font-size:14px;margin: auto 5px ;">{{blog.nickname}}</label>
+              <label class="blog-updatetime" style="margin: auto 0 ;">{{ blog.updateTime | formatDateTime}}</label>
+            </div>
           </div>
         </el-card>
       </div>
 
-      <el-card class="bolg-app" shadow="never">
+
+
+      <el-card class="bolg-com" shadow="never">
         <div slot="header">
-          <span>卡片名称</span>
+          <span>推荐博文</span>
         </div>
-        <div v-for="o in 4" :key="o" class="text item">
-          {{ "列表内容 " + o }}
+        <div v-for="blog in blists" :key="blog.id" class="bolg-com-btitle">
+          {{ blog.title }}
         </div>
       </el-card>
     </div>
@@ -34,22 +44,41 @@
 </template>
 
 <script>
-import { bloglists , getBlogInfo} from "@/api/blogs";
+import { viewbloglist } from "@/api/blogs";
 import { formatDate } from "@/utils/date";
+  import {getScrollHeight,getScrollTop,getWindowHeight} from "@/utils/screen";
+
+const defaultListQuery = {
+  pageNum: 1,
+  pageSize: 7,
+  keyword: null,
+};
 
 export default {
   name: "blogs",
   data() {
     return {
+      listQuery: Object.assign({}, defaultListQuery),
+      pageSize: 1,
+
       blists:[],
     };
   },
   created() {
-    bloglists()
+    viewbloglist(this.listQuery)
       .then((response) => {
+        console.log(response);
+        this.pageSize=response.data.pageSize;
+      
         this.blists = response.data.list;
       })
       .catch((error) => {});
+  },
+  mounted(){
+    window.addEventListener('scroll', this.load);
+  },
+  destroyed(){
+      window.removeEventListener('scroll', this.load, false);
   },
    filters: {
     formatDateTime(time) {
@@ -62,10 +91,50 @@ export default {
     },
   },
   methods: {
+    //无限滚动加载
+    load(){
+        if(getScrollTop() + getWindowHeight() >= getScrollHeight()){
+          console.log("----"+this.pageSize+"----"+this.listQuery.pageNum);
+            if(this.listQuery.pageNum<this.pageSize){      //先判断下一页是否有数据  
+                this.listQuery.pageNum+=1;         //查询条件的页码+1
+                this.getbloglist();              //拉取接口数据
+            }else{
+                //到底了
+                console.log("11到底啦");
+            }
+        }
+    },
+
+    getbloglist(){
+      viewbloglist(this.listQuery)
+      .then((response) => {
+        this.blists = response.data.list;
+
+        if(this.queryList.pageNum === 1){         //第一页就直接赋值   
+            this.pageSize=response.data.pageSize;    //将后台的总页数赋值   
+            this.blists=response.data.list;
+        }else{                         //将后面页码的数据和之前的数据拼合
+            for(let i in response.data.list){            
+                this.blists.push(response.data.list[i]);
+            }
+        }
+
+      })
+      .catch((error) => {});
+    },
+
     handleblogCheck(id) {
-      console.log("--");
       let routeData = this.$router.resolve({
         name: "blog",
+        query: { id: id } 
+      });
+      window.open(routeData.href, '_blank');
+      //this.$router.push({ path: "/blog", query: { id: id } });
+    },
+    handleblogMemCheck(id) {
+      console.log("--");
+      let routeData = this.$router.resolve({
+        name: "bloghome",
         query: { id: id } 
       });
       window.open(routeData.href, '_blank');
@@ -76,6 +145,9 @@ export default {
 </script>
 
 <style scoped>
+
+
+
 .blogs {
   display: flex; /*Flex布局*/
   justify-content: center;
@@ -97,10 +169,12 @@ export default {
   right: 35px;
 }
 .blog-description {
-  /* margin-top: 10px; */
+  margin-top: 10px; 
+  margin-bottom: 10px; 
   font-size: 12px;
   color: #525457;
   width: 95%;
+  line-height:20px;
   text-overflow: -o-ellipsis-lastline;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -114,9 +188,24 @@ export default {
   color: #c0c4cc;
 }
 
-.bolg-app {
-  margin-top: 10px;
+.bolg-com {
   height: 30%;
   width: 15%;
 }
+
+
+.bolg-com-btitle{
+  font-size: 14px;
+  margin-bottom:10px;
+  overflow:hidden; /*超出一行文字自动隐藏  */
+  text-overflow:ellipsis;/*文字隐藏后添加省略号*/
+  white-space:nowrap; /*强制不换行*/
+}
+
+.bolg-com-btitle:hover
+{ 
+  font-weight:bold;
+}
+
+
 </style>

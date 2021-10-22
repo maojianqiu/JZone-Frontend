@@ -9,6 +9,7 @@ export function bloglist(params) {
   }
 
 
+
   export function createBlog(data) {
     return request({
       url: '/bmsblog/blogadd',
@@ -77,3 +78,11 @@ export function bloglist(params) {
       data:params,
     })
   }
+
+  export function viewClassifyList(userid) {
+    return request({
+      url: '/bmsclassify/viewClassifyList/'+userid,
+      method: 'get',
+    })
+  }
+

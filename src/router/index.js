@@ -41,6 +41,13 @@ export const constantRouterMap = [
       meta: {title: '博文', icon: 'blogs'}
     },
     {
+      // path: ':username',
+      path: 'bloghome',
+      name: 'bloghome',
+      component: () => import('@/views/userhome/index'),//2.Appmain 中的 <router-view/> 中渲染指定组件
+      meta: {title: '个人主页', icon: 'userhome'}
+    },
+    {
       path: 'qanda',
       name: 'qanda',
       component: () => import('@/views/qanda/index'),//2.Appmain 中的 <router-view/> 中渲染指定组件
@@ -70,12 +77,7 @@ export const constantRouterMap = [
       component: () => import('@/views/usermanage/index'),//2.Appmain 中的 <router-view/> 中渲染指定组件
       meta: {title: '个人中心', icon: 'manage'}
     },
-    {
-      path: ':username',
-      name: 'userhome',
-      component: () => import('@/views/userhome/index'),//2.Appmain 中的 <router-view/> 中渲染指定组件
-      meta: {title: '个人主页', icon: 'userhome'}
-    },
+    
 
   ]
   }

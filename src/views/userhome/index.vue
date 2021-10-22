@@ -15,12 +15,12 @@
               >{{blog.description}}</label
             >
             <br />
-           <!-- <el-tag class="blog-flag" size="mini">{{blog.flag == 0 ? "转载" : "原创"}}</el-tag> -->
-            <img
+           <el-tag class="blog-flag" size="mini">{{blog.flag == 0 ? "转载" : "原创"}}</el-tag> 
+         <!--    <img
             style="width: 20px; height: 20px ;border-radius:20%;"
             :src="member.icon"
             ></img>
-            <label class="blog-memname" style="font-size:14px">{{member.nickname}}</label>  
+            <label class="blog-memname" style="font-size:14px">{{member.nickname}}</label>  -->
             <label class="blog-updatetime">{{ blog.updateTime | formatDateTime}}</label>
           </div>
         </el-card>
@@ -45,8 +45,10 @@
         <div slot="header" class="clearfix">
           <span>博文分类</span>
         </div>
-         <div v-for="o in 4" :key="o" class="bolg-class">
-            {{'列表内容 ' + o }}
+         <div v-for="classinfo in classList" :key="classinfo.id" class="bolg-class">
+            <span class="bolg-classname">
+             {{ classinfo.name }}
+            </span>
           </div>
       </el-card>
       </div>
@@ -57,6 +59,7 @@
 
 <script>
 import { getViewBlogListByUserID } from "@/api/blogs";
+import { viewClassifyList } from "@/api/bmsb"
 import { getMemeberInfo } from "@/api/mem_login";
 import { formatDate } from "@/utils/date";
 
@@ -66,6 +69,8 @@ import { formatDate } from "@/utils/date";
       return {
         blists:[],
 
+        classList:[],
+
         member: {},
       };
     },
@@ -73,7 +78,7 @@ import { formatDate } from "@/utils/date";
       // console.log("userhome----"+this.$route.query.id);
       let id = this.$route.query.id
       //获取博文列表
-      getViewBlogListByUserID(0)
+      getViewBlogListByUserID(id)
         .then((response) => {
           this.blists = response.data.list;
           // console.log(response.data.list);
@@ -84,6 +89,14 @@ import { formatDate } from "@/utils/date";
         .then((response) => {
           this.member = response.data;
           // console.log(response.data);
+        })
+        .catch((error) => {});
+
+      //获取当前被浏览的用户分类列表
+      viewClassifyList(id)
+        .then((response) => {
+          this.classList = response.data.list;
+          console.log(this.classList);
         })
         .catch((error) => {});
     },
@@ -191,7 +204,12 @@ import { formatDate } from "@/utils/date";
 
 .bolg-class{
   font-size: 14px;
-  margin-bottom:5px;
+  margin-bottom:10px;
+}
+
+.bolg-class:hover
+{ 
+  font-weight:bold;
 }
 
 </style>

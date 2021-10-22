@@ -17,8 +17,8 @@
         
       >
 
-        <el-menu-item index="/home" style="margin:0 50px 0 500px;" >首页</el-menu-item>
-        <el-menu-item index="/blogs" style="margin:0 50px 0 0;">博文</el-menu-item>
+        <!-- <el-menu-item index="/home" style="margin:0 50px 0 500px;" >首页</el-menu-item>-->
+        <el-menu-item index="/blogs" style="margin:0 50px 0 500px;">博文</el-menu-item>
         <el-menu-item index="/qanda" style="margin:0 50px 0 0;">问答</el-menu-item>
         <!-- <el-menu-item index="/home" style="margin:0 50px 0 0;">小组</el-menu-item> -->
 
@@ -91,7 +91,7 @@ export default {
       this.$router.push({ path: key })
     },
     userhomeClick(){
-      this.$router.push({ path:'/' + this.name, query: { id: this.userid } });
+      this.$router.push({ path:'/bloghome'  , query: { id: this.userid } });
     },
     userManageClick(){
       this.$router.push('/usermanage');

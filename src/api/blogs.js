@@ -8,6 +8,13 @@ export function bloglists(params) {
     })
   }
 
+  export function viewbloglist(params) {
+    return request({
+      url: '/blogs/viewbloglist',
+      method: 'get',
+      params: params
+    })
+  }
 
   export function getBlogInfo(id) {
     return request({
