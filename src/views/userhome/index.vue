@@ -15,17 +15,42 @@
               >{{blog.description}}</label
             >
             <br />
-            <el-tag class="blog-flag" size="mini">{{blog.flag == 0 ? "转载" : "原创"}}</el-tag>
+           <!-- <el-tag class="blog-flag" size="mini">{{blog.flag == 0 ? "转载" : "原创"}}</el-tag> -->
+            <img
+            style="width: 20px; height: 20px ;border-radius:20%;"
+            :src="member.icon"
+            ></img>
+            <label class="blog-memname" style="font-size:14px">{{member.nickname}}</label>  
             <label class="blog-updatetime">{{ blog.updateTime | formatDateTime}}</label>
           </div>
         </el-card>
       </div>
 
-      <el-card class="bolg-app" shadow="never">
-        <div v-for="o in 4" :key="o" class="text item">
-          {{ "列表内容 " + o }}
-        </div>
+      <div class="b-right">
+        <el-card class="bolg-user" shadow="never">
+         <div class="blog-user">
+         <img
+            style="width: 60px; height: 60px ;border-radius:20%;"
+            :src="member.icon"
+            ></img>
+          <label class="blog-username" style="">{{member.nickname}}</label>  
+          <br>
+          <br>
+          <label class="blog-der" style="">{{member.personalizedSignature}}</label>  
+         </div>
       </el-card>
+
+
+      <el-card class="bolg-user" shadow="never">
+        <div slot="header" class="clearfix">
+          <span>博文分类</span>
+        </div>
+         <div v-for="o in 4" :key="o" class="bolg-class">
+            {{'列表内容 ' + o }}
+          </div>
+      </el-card>
+      </div>
+
     </div>
   </div>
 </template>
@@ -124,12 +149,49 @@ import { formatDate } from "@/utils/date";
   color: #8a8a8a;
 }
 
-.bolg-app {
-  margin-top: 10px;
+.b-right{
   height: 30%;
   width: 15%;
 }
 
+.bolg-user {
+  margin-bottom: 20px;
+}
 
+.blog-user{
+  position: relative;
+}
+
+.blog-username{
+  position:absolute;
+  left:70px;
+  top:20px;
+  font-size:18px;
+  width:175px;
+  overflow:hidden; /*超出一行文字自动隐藏  */
+  text-overflow:ellipsis;/*文字隐藏后添加省略号*/
+  white-space:nowrap; /*强制不换行*/
+}
+
+.blog-der{
+  font-size:15px;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  white-space: normal !important;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+
+.b-right .el-card bolg-user is-never-shadow .el-card__header {
+  padding:10px 10px !important;
+}
+
+.bolg-class{
+  font-size: 14px;
+  margin-bottom:5px;
+}
 
 </style>
