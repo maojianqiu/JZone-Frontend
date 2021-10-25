@@ -62,11 +62,21 @@ import { getViewBlogListByUserID } from "@/api/blogs";
 import { viewClassifyList } from "@/api/bmsb"
 import { getMemeberInfo } from "@/api/mem_login";
 import { formatDate } from "@/utils/date";
+  import {getScrollHeight,getScrollTop,getWindowHeight} from "@/utils/screen";
+
+const defaultListQuery = {
+  pageNum: 1, //当前页码
+  pageSize: 10, //每页条数
+  totalPage: 0, //总页码
+  keyword: null,
+};
 
   export default {
     name: 'userhome',
     data() {
       return {
+        listQuery: Object.assign({}, defaultListQuery),
+
         blists:[],
 
         classList:[],
@@ -77,13 +87,22 @@ import { formatDate } from "@/utils/date";
     created(){
       // console.log("userhome----"+this.$route.query.id);
       let id = this.$route.query.id
+      const params = {
+          id:id,
+          pageNum: 1, //当前页码
+          pageSize: 10, //每页条数
+      };
+
+
       //获取博文列表
-      getViewBlogListByUserID(id)
+      getViewBlogListByUserID(params)
         .then((response) => {
+          this.listQuery.totalPage=response.data.totalPage;
           this.blists = response.data.list;
-          // console.log(response.data.list);
         })
-        .catch((error) => {});
+        .catch((error) => {
+          console.log("--error--");
+        });
       //获取用户信息
       getMemeberInfo(id)
         .then((response) => {
@@ -96,10 +115,11 @@ import { formatDate } from "@/utils/date";
       viewClassifyList(id)
         .then((response) => {
           this.classList = response.data.list;
-          console.log(this.classList);
+          // console.log(this.classList);
         })
         .catch((error) => {});
     },
+
     filters: {
       formatDateTime(time) {
         // console.log(time);
@@ -110,8 +130,56 @@ import { formatDate } from "@/utils/date";
         return formatDate(date, "yyyy-MM-dd hh:mm:ss");
       }
     },
+    mounted(){
+      window.addEventListener('scroll', this.load);
+    },
+    destroyed(){
+        window.removeEventListener('scroll', this.load, false);
+    },
     methods:{
+      //无限滚动加载
+      load(){
+          if(getScrollTop() + getWindowHeight() + 3>= getScrollHeight() ){
+              if(this.listQuery.pageNum<=this.listQuery.totalPage){      //先判断下一页是否有数据  
+                  this.listQuery.pageNum+=1;         //查询条件的页码+1
+                  this.getbloglist();              //拉取接口数据
+              }else{
+                  //到底了
+                  console.log("11到底啦");
 
+              }
+          }
+      },
+      getbloglist(){
+        let id = this.$route.query.id
+        const params = {
+            id:id,
+            pageNum: this.listQuery.pageNum, //当前页码
+            pageSize: 10, //每页条数
+        };
+        getViewBlogListByUserID(params)
+        .then((response) => {
+          if(this.listQuery.pageNum === 1){         //第一页就直接赋值   
+              this.listQuery.totalPage=response.data.totalPage;
+              this.blists=response.data.list;
+          }else{                         //将后面页码的数据和之前的数据拼合
+              this.listQuery.totalPage=response.data.totalPage;
+              for(let i in response.data.list){            
+                  this.blists.push(response.data.list[i]);
+              }
+          }
+
+        })
+        .catch((error) => {});
+      },
+
+      handleblogCheck(id){
+        let routeData = this.$router.resolve({
+          name: "blog",
+          query: { id: id } 
+        });
+        window.open(routeData.href, '_blank');
+      }
     }
   }
 </script>

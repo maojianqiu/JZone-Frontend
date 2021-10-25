@@ -73,6 +73,16 @@
                     </el-card>
                   </div>
                 </div>
+                <div class="pagination-container" >
+                  <el-pagination
+                    @current-change="handleCurrentChange"
+                    :page-size="listQuery.pageSize"
+                    layout=" prev, pager, next"
+                    :current-page.sync="listQuery.pageNum"
+                    :total="total"
+                  >
+                  </el-pagination>
+                </div>
               </el-tab-pane>
               <el-tab-pane label="已发布" name="2">
               <div class="blog-card" v-for="item in blists" :key="item.id">
@@ -106,7 +116,17 @@
                         >
                       </div>
                     </el-card>
-                  </div>
+              </div>
+                <div class="pagination-container" >
+                  <el-pagination
+                    @current-change="handleCurrentChange"
+                    :page-size="listQuery.pageSize"
+                    layout=" prev, pager, next"
+                    :current-page.sync="listQuery.pageNum"
+                    :total="total"
+                  >
+                  </el-pagination>
+                </div>
               </el-tab-pane>
               <el-tab-pane label="审核中" name="1">
               <div class="blog-card" v-for="item in blists" :key="item.id">
@@ -213,9 +233,11 @@
 
             </el-tabs>
 
-          </div>
+
+
 
           
+          </div>
         </el-tab-pane>
 
         <!-- 分类 -->
@@ -376,31 +398,25 @@ import { getInfo, updateMember } from "@/api/mem_login";
 import { bloglist } from "@/api/bmsb";
 import { formatDate } from "@/utils/date";
 
+const defaultListQuery = {
+  pageNum: 1,
+  pageSize: 5,
+  totalPage:0,
+  keyword: null,
+}; //若共用一个分页器，切换时，需要清空分页数据
+
+
 export default {
   name: "usermanage",
   data() {
     return {
+      listQuery: Object.assign({}, defaultListQuery),
+      total: null,
+
       blogStatusActiveName: '100',
 
       blists: [],
-      // [
-      //   {
-      //     id: "1",
-      //     title: "2",
-      //     description: "3",
-      //     flag: "1",
-      //     state: "1",
-      //     updateTime: "6",
-      //   },
-      //   {
-      //     id: "2",
-      //     title: "2",
-      //     description: "3",
-      //     flag: "0",
-      //     state: "0",
-      //     updateTime: "6",
-      //   },
-      // ],
+
       member: {
         id: "",
         username: "",
@@ -444,6 +460,7 @@ export default {
       bloglist(params)
       .then((response) => {
         this.blists = response.data.list;
+        this.total = response.data.total;
       })
       .catch((error) => {});
 
@@ -454,6 +471,11 @@ export default {
       .catch((error) => {})
   },
   methods: {
+    cleanlistQuery(){
+      this.listQuery = Object.assign({}, defaultListQuery);
+    },
+
+
     //----------------------------tag
 
     clickTab(targetName) {
@@ -472,6 +494,7 @@ export default {
         bloglist(params)
           .then((response) => {
             this.blists = response.data.list;
+            this.total = response.data.total;
           })
           .catch((error) => {});
       }
@@ -486,8 +509,13 @@ export default {
       this.$router.push({ path: "/blogEdit", query: { id: id } });
     },
     handleCheck(id) {
-      console.log(id);
-      this.$router.push({ path: "/blog", query: { id: id } });
+      // console.log(id);
+      let routeData = this.$router.resolve({
+        name: "blog",
+        query: { id: id } 
+      });
+      window.open(routeData.href, '_blank');
+      // this.$router.push({ path: "/blog", query: { id: id } });
     },
     isDelete(id) {
       console.log(id);
@@ -495,7 +523,8 @@ export default {
       // this.$router.push({path:'/',query:{id:}});
     },
     handleBlogStatusClick(tab, event) {
-        console.log(this.blogStatusActiveName);
+        this.cleanlistQuery();
+
         const params = {
           state:this.blogStatusActiveName
         };
@@ -503,9 +532,27 @@ export default {
         bloglist(params)
         .then((response) => {
           this.blists = response.data.list;
+          this.total = response.data.total;
         })
         .catch((error) => {});
     },
+
+    handleCurrentChange(val) {
+      console.log("handleCurrentChange");
+      this.listQuery.pageNum = val;
+      const params = {
+          state:this.blogStatusActiveName,
+          pageNum:this.listQuery.pageNum,
+      };
+      bloglist(params)
+      .then((response) => {
+          this.blists = response.data.list;
+          this.total = response.data.total;
+      })
+      .catch((error) => {});
+    },
+
+
 
     // ------classify
     getClassifyList() {
@@ -599,14 +646,15 @@ export default {
 }
 .homeMain .el-tabs {
   
-  height:600px;
+  height:750px;
 
 
 
 }
 .homeMain .el-tabs__content {
-  height:600px;
+  height:100%;
   overflow-y: auto;
+  
 }
 
 .homeMain .el-tabs--border-card > .el-tabs__header .el-tabs__item {
@@ -643,7 +691,9 @@ export default {
   background-color: #c8291c;
 }
 
-
+.blogStatus .el-tabs blog-card .el-card__body{
+  padding:10px;
+}
 
 .find-top .el-button--text {
   color: #c0c4cc;

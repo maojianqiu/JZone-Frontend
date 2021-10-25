@@ -24,9 +24,10 @@ export function bloglists(params) {
   }
 
 
-  export function getViewBlogListByUserID(id) {
+  export function getViewBlogListByUserID(params) {
     return request({
-      url: '/blogs/blogViewListByUserID/'+ id,
+      url: '/blogs/blogViewListByUserID/'+ params.id,
       method: 'get',
+      params: params
     })
   }

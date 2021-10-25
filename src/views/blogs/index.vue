@@ -49,8 +49,9 @@ import { formatDate } from "@/utils/date";
   import {getScrollHeight,getScrollTop,getWindowHeight} from "@/utils/screen";
 
 const defaultListQuery = {
-  pageNum: 1,
-  pageSize: 7,
+  pageNum: 1, //当前页码
+  pageSize: 10, //每页条数
+  totalPage: 0, //总页码
   keyword: null,
 };
 
@@ -59,17 +60,17 @@ export default {
   data() {
     return {
       listQuery: Object.assign({}, defaultListQuery),
-      pageSize: 1,
+      
 
       blists:[],
+
     };
   },
   created() {
     viewbloglist(this.listQuery)
       .then((response) => {
         console.log(response);
-        this.pageSize=response.data.pageSize;
-      
+        this.listQuery.totalPage=response.data.totalPage;
         this.blists = response.data.list;
       })
       .catch((error) => {});
@@ -93,14 +94,16 @@ export default {
   methods: {
     //无限滚动加载
     load(){
-        if(getScrollTop() + getWindowHeight() >= getScrollHeight()){
-          console.log("----"+this.pageSize+"----"+this.listQuery.pageNum);
-            if(this.listQuery.pageNum<this.pageSize){      //先判断下一页是否有数据  
+        // console.log("getScrollTop()="+getScrollTop()+"getWindowHeight()="+getWindowHeight()+"getScrollHeight()="+getScrollHeight());
+        // console.log(getScrollTop() + getWindowHeight() + 2 >= getScrollHeight());
+        if(getScrollTop() + getWindowHeight() + 3>= getScrollHeight() ){
+            if(this.listQuery.pageNum<=this.listQuery.totalPage){      //先判断下一页是否有数据  
                 this.listQuery.pageNum+=1;         //查询条件的页码+1
                 this.getbloglist();              //拉取接口数据
             }else{
                 //到底了
                 console.log("11到底啦");
+
             }
         }
     },
@@ -108,12 +111,11 @@ export default {
     getbloglist(){
       viewbloglist(this.listQuery)
       .then((response) => {
-        this.blists = response.data.list;
-
-        if(this.queryList.pageNum === 1){         //第一页就直接赋值   
-            this.pageSize=response.data.pageSize;    //将后台的总页数赋值   
+        if(this.listQuery.pageNum === 1){         //第一页就直接赋值   
+            this.listQuery.totalPage=response.data.totalPage;
             this.blists=response.data.list;
         }else{                         //将后面页码的数据和之前的数据拼合
+            this.listQuery.totalPage=response.data.totalPage;
             for(let i in response.data.list){            
                 this.blists.push(response.data.list[i]);
             }
@@ -122,6 +124,7 @@ export default {
       })
       .catch((error) => {});
     },
+
 
     handleblogCheck(id) {
       let routeData = this.$router.resolve({
