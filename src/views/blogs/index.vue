@@ -17,12 +17,13 @@
               >
             </div>
 
-            <div class="blog-ums-stat" @click="handleblogMemCheck(blog.umsId)">
-              <img
-              style=" height: 100%;border-radius:20%;"
-              :src="blog.icon"
-              ></img>
-              <label class="blog-memname" >{{blog.nickname}}</label>
+            <div class="blog-ums-stat" >
+              <div class="blog-ums-stat"  @click="handleblogMemCheck(blog.umsId)">
+                <img
+                style=" height: 100%;border-radius:20%;"
+                :src="blog.icon"/>
+                <label class="blog-memname" >{{blog.nickname}}</label>
+              </div>
               <label class="blog-updatetime" >{{ blog.updateTime | formatDateTime}}</label>
               <div class="blog-stat" >
                 <i class="el-icon-view"></i>{{blog.views}}

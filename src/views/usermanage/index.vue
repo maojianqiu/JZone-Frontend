@@ -25,26 +25,37 @@
                         }}</label>
                         <br />
                       </div>
-                      <el-tag
-                        class="blog-caogao"
-                        type="info"
-                        size="mini"
-                        v-show="item.state == 0 || item.state == 1 || item.state == 3 "
-                        >{{item.state == 0 ? "草稿": item.state == 1 ? "审核中":"未通过"}}</el-tag
-                      >
-                      <el-tag class="blog-flag" size="mini">{{
-                        item.flag == 0 ? "转载" : "原创"
-                      }}</el-tag>
-                      <label class="blog-updatetime">{{ item.updateTime | formatDateTime}}</label>
 
-                      <div class="blog-option">
-                        <el-button type="text" @click="toBlogEdit(item.id)"
-                          >编辑</el-button
+                      <div class="blog-ums-stat">
+                        <el-tag
+                          class="blog-caogao"
+                          type="info"
+                          size="mini"
+                          v-show="item.state == 0 || item.state == 1 || item.state == 3 "
+                          >{{item.state == 0 ? "草稿": item.state == 1 ? "审核中":"未通过"}}</el-tag
                         >
-                        <el-button type="text" @click="isDelete(item.id)"
-                          >删除</el-button
-                        >
+                        <el-tag class="blog-flag" size="mini">{{
+                          item.flag == 0 ? "转载" : "原创"
+                        }}</el-tag>
+                        <label class="blog-updatetime">{{ item.updateTime | formatDateTime}}</label>
+
+                        <div class="blog-stat" >
+                            <i class="el-icon-view"></i>{{item.views}}
+                                
+                            <i class="el-icon-star-off"></i>{{item.likes}}
+                        </div>
+                        <div class="blog-option">
+                          <el-button type="text" @click="toBlogEdit(item.id)"
+                            >编辑</el-button
+                          >
+                          <el-button type="text" @click="isDelete(item.id)"
+                            >删除</el-button
+                          >
+                        </div>
                       </div>
+                      
+
+                      
                     </el-card>
                   </div>
                 </div>
@@ -554,8 +565,26 @@ export default {
   line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+
+
+/* ----------------------- */
+.blog-ums-stat{
+  height: 25px ;
+  display: flex;
+}
+.blog-flag{
+  margin: auto 5px ;
+}
+
 .blog-updatetime {
   font-size: 10px;
-  color: #c0c4cc;
+  color: #8a8a8a;
+  margin: auto 5px ;
+}
+.blog-stat{
+
+  font-size: 10px;
+  margin: auto 10px ;
+
 }
 </style>

@@ -11,13 +11,18 @@
       <el-card class="blog-content">
         <label style="font-size:35px; font-weight:bold;">{{blog.title}}</label>
         <br/><br/>
-        <div style="background-color: #f5f6f7;padding:5px 10px">
+        <div class="blog-stat" style="background-color: #f5f6f7;padding:5px 10px">
+          <!-- <div class="blog-stat" > -->
           <el-tag class="blog-flag" size="mini">{{
                     blog.flag == 0 ? "转载" : "原创"
                   }}</el-tag>
           <label class="blog-nickname">{{blog.nickname}}</label> 
           <label class="blog-date">{{blog.updateTime | formatDateTime}}</label> 
-          <label class="blog-date">10000 浏览</label>
+          
+                  <i class="el-icon-view"></i>{{blog.views}}
+                      
+                  <i class="el-icon-star-off"></i>{{blog.likes}}
+
           <br/>
           <el-tag class="blog-tags" size="mini" type="info" v-for="item in blog.tags" :key="item.id">{{
                     item.name
@@ -107,6 +112,14 @@ export default {
   font-size: 12px;
   color: rgb(134, 134, 134);
   margin-right: 30px;
+}
+
+.blog-stat{
+    /* flex: 1;
+    text-align: right; */
+  font-size: 10px;
+  margin: auto 10px ;
+
 }
 
 .blog-content .blog-nickname{

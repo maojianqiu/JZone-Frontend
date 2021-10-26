@@ -10,18 +10,21 @@
         >
           <div @click="handleblogCheck(blog.id)" >
             <label class="blog-title">{{blog.title}}</label>
-            <br />
-            <label class="blog-description" style=""
+           
+            <label class="blog-description" 
               >{{blog.description}}</label
             >
-            <br />
-           <el-tag class="blog-flag" size="mini">{{blog.flag == 0 ? "转载" : "原创"}}</el-tag> 
-         <!--    <img
-            style="width: 20px; height: 20px ;border-radius:20%;"
-            :src="member.icon"
-            ></img>
-            <label class="blog-memname" style="font-size:14px">{{member.nickname}}</label>  -->
-            <label class="blog-updatetime">{{ blog.updateTime | formatDateTime}}</label>
+            
+            <div class="blog-ums-stat">
+              <el-tag class="blog-flag" size="mini">{{blog.flag == 0 ? "转载" : "原创"}}</el-tag> 
+              <label class="blog-updatetime">{{ blog.updateTime | formatDateTime}}</label>
+
+              <div class="blog-stat" >
+                  <i class="el-icon-view"></i>{{blog.views}}
+                      
+                  <i class="el-icon-star-off"></i>{{blog.likes}}
+              </div>
+            </div>
           </div>
         </el-card>
       </div>
@@ -32,7 +35,7 @@
          <img
             style="width: 60px; height: 60px ;border-radius:20%;"
             :src="member.icon"
-            ></img>
+            />
           <label class="blog-username" style="">{{member.nickname}}</label>  
           <br>
           <br>
@@ -208,7 +211,8 @@ const defaultListQuery = {
   right: 35px;
 }
 .blog-description {
-   margin-top: 10px; 
+  margin-top: 10px; 
+  margin-bottom: 10px; 
   font-size: 14px;
   color: #8a8a8a;
   /* width: 100%;
@@ -225,10 +229,7 @@ const defaultListQuery = {
 
  
 }
-.blog-updatetime {
-  font-size: 10px;
-  color: #8a8a8a;
-}
+
 
 .b-right{
   height: 30%;
@@ -263,6 +264,27 @@ const defaultListQuery = {
   white-space: normal !important;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+/* ----------------------- */
+.blog-ums-stat{
+  height: 25px ;
+  display: flex;
+}
+.blog-flag{
+  margin: auto 5px ;
+}
+
+.blog-updatetime {
+  font-size: 10px;
+  color: #8a8a8a;
+  margin: auto 5px ;
+}
+.blog-stat{
+    flex: 1;
+    text-align: right;
+  font-size: 10px;
+  margin: auto 10px ;
+
 }
 
 
