@@ -9,37 +9,12 @@
       <el-tabs type="border-card" tabPosition="left" @tab-click="clickTab">
         <!-- 博文 -->
         <el-tab-pane label="博文">
-          <!-- <div class="find-top">
-            <el-button type="text" disabled>状态</el-button>
-            <el-button class="is-active" type="text">全部(0)</el-button>
-            <el-button type="text">发布(0)</el-button>
-            <el-button type="text">撤销(0)</el-button>
-            <el-button type="text">审核(0)</el-button>
-            <el-button type="text">草稿箱(0)</el-button>
-            <el-button
-              style="position: absolute; right: 35px"
-              @click="toBlogAdd"
-              >发布博文</el-button
-            >
-          </div> -->
+
 
           <div class= "blogStatus">
-            <el-tabs  v-model="blogStatusActiveName" @tab-click="handleBlogStatusClick">
-              <el-tab-pane label="全部" name="100">
-                <div class="blogs-card">
-                  <!-- <el-card shadow="hover">
-                    <label class="blog-title">博文标题</label>
-                    <br/>
-                    <label class="blog-description" style="">以上使用标签内使用color颜色样式和css代码使用color颜色样式。 四、文字颜色控制一样 - TOP 传统html和css 文字颜色相同使用“color:”+“RGB颜色取值”即可,如颜色为黑色字以上使用标签内使用color颜色样式和css代码使用color颜色样式。 四、文字颜色控制一样 - TOP 传统html和css 文字颜色相同使用“color:”+“RGB颜色取值”即可,如颜色为黑色字</label>
-                    <br/>
-                    <el-tag class="blog-caogao" type="info" size="mini">草稿</el-tag>
-                    <el-tag class="blog-flag" size="mini">转载</el-tag>
-                    <label class="blog-updatetime" >2021-03-02 15:25:21</label>
-                    <div class="blog-option">
-                      <el-button type="text">编辑</el-button>
-                      <el-button type="text">删除</el-button>
-                    </div>
-                  </el-card> -->
+
+          <div class="blogs-card">
+                  
                   <div class="blog-card" v-for="item in blists" :key="item.id">
                     <el-card shadow="hover">
                       <div class="" @click="handleCheck(item.id)">
@@ -83,160 +58,6 @@
                   >
                   </el-pagination>
                 </div>
-              </el-tab-pane>
-              <el-tab-pane label="已发布" name="2">
-              <div class="blog-card" v-for="item in blists" :key="item.id">
-                    <el-card shadow="hover">
-                      <div class="" @click="handleCheck(item.id)">
-                        <label class="blog-title">{{ item.title }}</label>
-                        <br />
-                        <label class="blog-description" style="">{{
-                          item.description
-                        }}</label>
-                        <br />
-                      </div>
-                      <el-tag
-                        class="blog-caogao"
-                        type="info"
-                        size="mini"
-                        v-show="item.state == 0 || item.state == 1 || item.state == 3 "
-                        >{{item.state == 0 ? "草稿": item.state == 1 ? "审核中":"未通过"}}</el-tag
-                      >
-                      <el-tag class="blog-flag" size="mini">{{
-                        item.flag == 0 ? "转载" : "原创"
-                      }}</el-tag>
-                      <label class="blog-updatetime">{{ item.updateTime | formatDateTime}}</label>
-
-                      <div class="blog-option">
-                        <el-button type="text" @click="toBlogEdit(item.id)"
-                          >编辑</el-button
-                        >
-                        <el-button type="text" @click="isDelete(item.id)"
-                          >删除</el-button
-                        >
-                      </div>
-                    </el-card>
-              </div>
-                <div class="pagination-container" >
-                  <el-pagination
-                    @current-change="handleCurrentChange"
-                    :page-size="listQuery.pageSize"
-                    layout=" prev, pager, next"
-                    :current-page.sync="listQuery.pageNum"
-                    :total="total"
-                  >
-                  </el-pagination>
-                </div>
-              </el-tab-pane>
-              <el-tab-pane label="审核中" name="1">
-              <div class="blog-card" v-for="item in blists" :key="item.id">
-                    <el-card shadow="hover">
-                      <div class="" @click="handleCheck(item.id)">
-                        <label class="blog-title">{{ item.title }}</label>
-                        <br />
-                        <label class="blog-description" style="">{{
-                          item.description
-                        }}</label>
-                        <br />
-                      </div>
-                      <el-tag
-                        class="blog-caogao"
-                        type="info"
-                        size="mini"
-                        v-show="item.state == 0 || item.state == 1 || item.state == 3 "
-                        >{{item.state == 0 ? "草稿": item.state == 1 ? "审核中":"未通过"}}</el-tag
-                      >
-                      <el-tag class="blog-flag" size="mini">{{
-                        item.flag == 0 ? "转载" : "原创"
-                      }}</el-tag>
-                      <label class="blog-updatetime">{{ item.updateTime | formatDateTime}}</label>
-
-                      <div class="blog-option">
-                        <el-button type="text" @click="toBlogEdit(item.id)"
-                          >编辑</el-button
-                        >
-                        <el-button type="text" @click="isDelete(item.id)"
-                          >删除</el-button
-                        >
-                      </div>
-                    </el-card>
-                  </div>
-              </el-tab-pane>
-              <el-tab-pane label="未通过" name="3">
-              <div class="blog-card" v-for="item in blists" :key="item.id">
-                    <el-card shadow="hover">
-                      <div class="" @click="handleCheck(item.id)">
-                        <label class="blog-title">{{ item.title }}</label>
-                        <br />
-                        <label class="blog-description" style="">{{
-                          item.description
-                        }}</label>
-                        <br />
-                      </div>
-                      <el-tag
-                        class="blog-caogao"
-                        type="info"
-                        size="mini"
-                        v-show="item.state == 0 || item.state == 1 || item.state == 3 "
-                        >{{item.state == 0 ? "草稿": item.state == 1 ? "审核中":"未通过"}}</el-tag
-                      >
-                      <el-tag class="blog-flag" size="mini">{{
-                        item.flag == 0 ? "转载" : "原创"
-                      }}</el-tag>
-                      <label class="blog-updatetime">{{ item.updateTime | formatDateTime}}</label>
-
-                      <div class="blog-option">
-                        <el-button type="text" @click="toBlogEdit(item.id)"
-                          >编辑</el-button
-                        >
-                        <el-button type="text" @click="isDelete(item.id)"
-                          >删除</el-button
-                        >
-                      </div>
-                    </el-card>
-                  </div>
-              </el-tab-pane>
-              <el-tab-pane label="草稿" name="0">
-              <div class="blog-card" v-for="item in blists" :key="item.id">
-                    <el-card shadow="hover">
-                      <div class="" @click="handleCheck(item.id)">
-                        <label class="blog-title">{{ item.title }}</label>
-                        <br />
-                        <label class="blog-description" style="">{{
-                          item.description
-                        }}</label>
-                        <br />
-                      </div>
-                      <el-tag
-                        class="blog-caogao"
-                        type="info"
-                        size="mini"
-                        v-show="item.state == 0 || item.state == 1 || item.state == 3 "
-                        >{{item.state == 0 ? "草稿": item.state == 1 ? "审核中":"未通过"}}</el-tag
-                      >
-                      <el-tag class="blog-flag" size="mini">{{
-                        item.flag == 0 ? "转载" : "原创"
-                      }}</el-tag>
-                      <label class="blog-updatetime">{{ item.updateTime | formatDateTime}}</label>
-
-                      <div class="blog-option">
-                        <el-button type="text" @click="toBlogEdit(item.id)"
-                          >编辑</el-button
-                        >
-                        <el-button type="text" @click="isDelete(item.id)"
-                          >删除</el-button
-                        >
-                      </div>
-                    </el-card>
-                  </div>
-              </el-tab-pane>
-
-            </el-tabs>
-
-
-
-
-          
           </div>
         </el-tab-pane>
 
@@ -639,6 +460,7 @@ export default {
 </script>
 
 <style >
+
 .homeMain {
   width: 70%;
   margin: auto;
@@ -723,7 +545,7 @@ export default {
   margin-top: 10px;
   font-size: 12px;
   color: #525457;
-  width: 90%;
+  width: 100%;
   text-overflow: -o-ellipsis-lastline;
   overflow: hidden;
   text-overflow: ellipsis;

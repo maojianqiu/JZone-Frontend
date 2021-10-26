@@ -17,13 +17,19 @@
               >
             </div>
 
-            <div style="height: 25px ;display: flex;" @click="handleblogMemCheck(blog.umsId)">
+            <div class="blog-ums-stat" @click="handleblogMemCheck(blog.umsId)">
               <img
               style=" height: 100%;border-radius:20%;"
               :src="blog.icon"
               ></img>
-              <label class="blog-memname" style="font-size:14px;margin: auto 5px ;">{{blog.nickname}}</label>
-              <label class="blog-updatetime" style="margin: auto 0 ;">{{ blog.updateTime | formatDateTime}}</label>
+              <label class="blog-memname" >{{blog.nickname}}</label>
+              <label class="blog-updatetime" >{{ blog.updateTime | formatDateTime}}</label>
+              <div class="blog-stat" >
+                <i class="el-icon-view"></i>{{blog.views}}
+                    
+                <i class="el-icon-star-off"></i>{{blog.likes}}
+              </div>
+            
             </div>
           </div>
         </el-card>
@@ -165,18 +171,19 @@ export default {
 .blog-title {
   font-size: 16px;
 }
-
+/*
 .blog-card .blog-option {
   display: inline-block;
   position: absolute;
   right: 35px;
 }
+*/
 .blog-description {
   margin-top: 10px; 
   margin-bottom: 10px; 
   font-size: 12px;
   color: #525457;
-  width: 95%;
+  width: 100%;
   line-height:20px;
   text-overflow: -o-ellipsis-lastline;
   overflow: hidden;
@@ -186,16 +193,37 @@ export default {
   line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-.blog-updatetime {
-  font-size: 10px;
-  color: #c0c4cc;
+
+
+/*----------------------------*/
+.blog-ums-stat{
+  height: 25px ;
+  display: flex;
 }
 
+.blog-memname{
+  font-size:14px;
+  margin: auto 5px ;
+}
+
+.blog-updatetime{
+  font-size: 10px;
+  margin: auto 0 ;
+}
+
+.blog-stat{
+    flex: 1;
+    text-align: right;
+  font-size: 10px;
+  margin: auto 10px ;
+
+}
+
+/*----------------------------*/
 .bolg-com {
   height: 30%;
   width: 15%;
 }
-
 
 .bolg-com-btitle{
   font-size: 14px;
