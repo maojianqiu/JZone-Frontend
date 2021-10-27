@@ -23,6 +23,13 @@ export function bloglists(params) {
     })
   }
 
+  export function isLikeAdd(id) {
+    return request({
+      url: '/blogs/isLikeAdd/'+id,
+      method: 'get',
+    })
+  }
+
 
   export function getViewBlogListByUserID(params) {
     return request({

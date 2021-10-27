@@ -108,7 +108,7 @@
             this.$store.dispatch('Login', this.loginForm).then(() => {
                console.log("==========Login");
               this.loading = false;
-              this.$router.push({path: '/home'})
+              this.$router.push({path: '/blogs'})
               console.log("==========home");
             }).catch(() => {
               this.loading = false

@@ -14,7 +14,7 @@ router.beforeEach((to, from, next) => {
   if (getToken()) {
     console.log("@@@@@");
     if (to.path === '/login') {
-      next({ path: '/' })
+      next({ path: '/blogs' })
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     }
     store.dispatch('GetInfo').then(res => { // 拉取用户信息

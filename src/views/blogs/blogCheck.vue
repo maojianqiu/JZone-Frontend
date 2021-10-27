@@ -1,9 +1,15 @@
 <template>
   <div class="app-container">
-    <div class="blog-option">
-          <el-button class="blog-option-btn" type="warning" icon="el-icon-star-off" circle></el-button><br/>
-          <el-button class="blog-option-btn" type="warning" icon="el-icon-star-off" circle></el-button><br/>
-          <el-button class="blog-option-btn" type="warning" icon="el-icon-star-off" circle></el-button><br/>
+    <div class="blog-option ">
+          <el-button class="blog-option-btn" type="warning" :icon="blog.islike ? 'el-icon-star-on':'el-icon-star-off'" circle @click="handleLikeAdd(blog.id)">
+          <br/>{{blog.islike ? '已赞':'点赞'}}
+          </el-button><br/>
+          <el-button class="blog-option-btn" type="warning" icon="el-icon-star-on" circle>
+          <br/>已赞
+          </el-button><br/>
+          <el-button class="blog-option-btn" type="warning" icon="el-icon-star-off" circle>
+          <br/>点赞
+          </el-button><br/>
       </div>
     <div class="blog-main">
       
@@ -21,7 +27,7 @@
           
                   <i class="el-icon-view"></i>{{blog.views}}
                       
-                  <i class="el-icon-star-off"></i>{{blog.likes}}
+                  <i class="el-icon-star-off" ></i>{{blog.likes}}
 
           <br/>
           <el-tag class="blog-tags" size="mini" type="info" v-for="item in blog.tags" :key="item.id">{{
@@ -34,7 +40,7 @@
         :value="blog.content"
         :subfield="false"
         :defaultOpen="'preview'"
-        :navigation="true"
+        :navigation="false"
         :toolbarsFlag="false"
         :editable="false"
         :scrollStyle="true"
@@ -50,7 +56,7 @@
 </template>
 
 <script>
-import { getBlogInfo} from "@/api/blogs";
+import { getBlogInfo , isLikeAdd} from "@/api/blogs";
 import { formatDate } from "@/utils/date";
 import { mavonEditor } from "mavon-editor";
 
@@ -80,7 +86,37 @@ export default {
       return formatDate(date, "yyyy-MM-dd hh:mm:ss");
     },
   },
-  methods: {},
+  methods: {
+
+    handleLikeAdd(blogId){
+      isLikeAdd(blogId).then((response) => {
+        let islikeresult = response.data;
+        if(islikeresult == 1){ //操作成功
+          this.blog.islike = !this.blog.islike;
+          if(this.blog.islike){
+            this.blog.likes = this.blog.likes + 1 ;
+          }else{
+            this.blog.likes = this.blog.likes - 1 ;
+          }
+        }
+
+        this.$message({
+          message: this.blog.islike ? '已点赞' :'已取消点赞',
+          type: 'success',
+          duration: 3 * 1000
+        })
+        
+        
+        console.log(this.islikeresult);
+      }).catch((error) => {
+        this.$message({
+          message: '操作失败，请稍后操作',
+          type: 'error',
+          duration: 3 * 1000
+        })
+      });
+    }
+  },
 };
 </script>
 
@@ -134,4 +170,8 @@ export default {
   margin-top:10px;
   margin-right: 10px;
 }
+
+/*---------------------*/
+
+
 </style>

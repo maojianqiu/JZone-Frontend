@@ -35,6 +35,7 @@
         v-model="blog.content"
         ref="md"
         @imgAdd="imgAdd"
+        @imgDel="imgDel"
         @change="change"
         style="height: 600px"
       />
@@ -162,6 +163,7 @@
 
 <script>
 import { getBlogInfo, createBlog, updateBlog ,classInfoOfBlog ,classList} from "@/api/bmsb";
+import { cosuploadImg ,cosdelloadImg } from '@/api/api';
 import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
 //对话框
@@ -221,8 +223,37 @@ export default {
     }
   },
   methods: {
-    // 将图片上传到服务器，返回地址替换到md中
-    imgAdd() {},
+    /**
+     将图片上传到服务器，返回地址替换到md中
+     注意：上传图片操作，可能会向COS中存储无用的图片，需要删除，现有逻辑：
+        1.上传操作，先缓存图片，缓存成功就使用待存储的url代替原名，保留最终的图片及url，
+            在调用接口批量存储（cos暂未找到批量操作，若实现需要批量调用接口）
+    */
+    imgAdd(place,$file) {
+      var formdata = new FormData();
+      formdata.append('file', $file);
+
+      cosuploadImg(formdata).then((response) => {
+        let url = response.data.replace(/\\/g,"/")
+        //第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)  这里是必须要有的
+        this.$refs.md.$img2Url(place, url);
+        this.$message.success('上传成功')
+      })
+      .catch((error) => {
+        this.$message.error('上传失败')
+      });
+    },
+    imgDel(pos){
+      var formdata = new FormData()
+      formdata.append('url', pos[0])
+      cosdelloadImg(formdata).then((response) => {
+        this.$message.success('操作成功')
+      })
+      .catch((error) => {
+        this.$message.error('操作失败')
+      });
+    },
+
     change(value, render) {
       // render 为 markdown 解析后的结果
      // this.blog.content = render;

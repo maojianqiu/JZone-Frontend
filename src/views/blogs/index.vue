@@ -53,7 +53,7 @@
 <script>
 import { viewbloglist } from "@/api/blogs";
 import { formatDate } from "@/utils/date";
-  import {getScrollHeight,getScrollTop,getWindowHeight} from "@/utils/screen";
+import {getScrollHeight,getScrollTop,getWindowHeight} from "@/utils/screen";
 
 const defaultListQuery = {
   pageNum: 1, //当前页码
