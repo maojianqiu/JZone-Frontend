@@ -55,6 +55,17 @@
       </div>
     </div>
    
+    <div class="copy-bottom">
+              <div  class="copyright" style="">
+                Copyright © 2021-2022 - All Rights Reserved - 备案号 
+                <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502030143" rel="noreferrer" target="_blank">11010502030143</a>
+              </div>
+              <div  class="copyright" >
+                Hello World !
+                你好啊，世界 ！
+              </div>
+      </div>
+
   </div>
 </template>
 
@@ -181,6 +192,19 @@ export default {
 }
 
 /*---------------------*/
+.copyright{
+  font-size: 11px;
 
+  padding-top: 10px;
+
+}
+.copy-bottom{
+  height: 60px;
+  background-color: #545c64;
+  margin:0 auto;
+  text-align:center;
+  color: #ffffff;
+
+}
 
 </style>

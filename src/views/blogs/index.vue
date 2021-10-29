@@ -36,16 +36,28 @@
         </el-card>
       </div>
 
+      <div class="b-right">
 
+            <el-card class="bolg-com" shadow="never">
+              <div slot="header">
+                <span>推荐博文</span>
+              </div>
+              <div v-for="blog in blists" :key="blog.id" class="bolg-com-btitle">
+                {{ blog.title }}
+              </div>
+            </el-card>
 
-      <el-card class="bolg-com" shadow="never">
-        <div slot="header">
-          <span>推荐博文</span>
-        </div>
-        <div v-for="blog in blists" :key="blog.id" class="bolg-com-btitle">
-          {{ blog.title }}
-        </div>
-      </el-card>
+            <el-card class="bolg-com" shadow="never">
+              <div  class="copyright" style=" margin-bottom:10px;">
+                Copyright © 2021-2022 - All Rights Reserved - 备案号 
+                <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502030143" rel="noreferrer" target="_blank">11010502030143</a>
+              </div>
+              <div  class="copyright" >
+                Hello World !
+                你好啊，世界 ！
+              </div>
+            </el-card>
+      </div>
     </div>
   </div>
 </template>
@@ -226,9 +238,14 @@ export default {
 }
 
 /*----------------------------*/
-.bolg-com {
+.b-right{
   height: 30%;
   width: 15%;
+}
+
+
+.bolg-com {
+  margin-bottom: 20px;
 }
 
 .bolg-com-btitle{
@@ -242,6 +259,12 @@ export default {
 .bolg-com-btitle:hover
 { 
   font-weight:bold;
+}
+
+.copyright{
+  font-size: 11px;
+  color: #999aaa;
+
 }
 
 

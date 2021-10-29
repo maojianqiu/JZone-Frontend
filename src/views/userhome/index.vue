@@ -54,6 +54,18 @@
             </span>
           </div>
       </el-card>
+
+
+      <el-card class="bolg-com" shadow="never">
+              <div  class="copyright" style=" margin-bottom:10px;">
+                Copyright © 2021-2022 - All Rights Reserved - 备案号 
+                <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502030143" rel="noreferrer" target="_blank">11010502030143</a>
+              </div>
+              <div  class="copyright" >
+                Hello World !
+                你好啊，世界 ！
+              </div>
+            </el-card>
       </div>
 
     </div>
@@ -303,6 +315,12 @@ const defaultListQuery = {
 .bolg-class:hover
 { 
   font-weight:bold;
+}
+
+.copyright{
+  font-size: 11px;
+  color: #999aaa;
+
 }
 
 </style>
