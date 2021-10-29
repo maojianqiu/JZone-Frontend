@@ -37,7 +37,7 @@
         @imgAdd="imgAdd"
         @imgDel="imgDel"
         @change="change"
-        style="height: 600px"
+        style="height: 680px"
       />
     </div>
 
@@ -356,7 +356,11 @@ export default {
 };
 </script>
 
-<style>
+<style >
+
+
+
+
 .blog-form-container {
   /* position: absolute; */
   /* left: 180px; */

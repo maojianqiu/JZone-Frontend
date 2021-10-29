@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="blogs">
+    <div class="blogs" style="padding: 20px;">
       <div class="blog-card">
         <el-card
           v-for="blog in blists"
@@ -188,7 +188,10 @@ const defaultListQuery = {
 </script>
 
 <style scoped>
-  
+  .app-container {
+  background: url("../../assets/images/05.jpg")  ;
+  background-size: 150%;
+}
 
 .blogs {
   display: flex; /*Flex布局*/

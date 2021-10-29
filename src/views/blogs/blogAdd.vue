@@ -24,6 +24,11 @@
   }
 </script>
 
-<style scoped>
-  
+<style >
+  .app-container {
+    padding-top:1px;
+    height:800px;
+  background: url("../../assets/images/04.jpg")  ;
+  background-size: 150%;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="homeMain">
+    <div class="homeMain" style="padding: 20px;">
       <el-button
       style="position: absolute; right: 35px"
       @click="toBlogAdd"
@@ -471,6 +471,11 @@ export default {
 </script>
 
 <style >
+
+.app-container {
+  background: url("../../assets/images/06.jpg")  ;
+  background-size: 150%;
+}
 
 .homeMain {
   width: 70%;

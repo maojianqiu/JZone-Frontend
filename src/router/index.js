@@ -20,14 +20,32 @@ import Layout from '../views/layout/Layout'
   }
  **/
 export const constantRouterMap = [
-  {path: '/login', component: () => import('@/views/login/index'), hidden: true},
-  {path: '/register', component: () => import('@/views/register/index'), hidden: true},
-  {path: '/404', component: () => import('@/views/404'), hidden: true},
+  // {path: '/login', component: () => import('@/views/login/index'), hidden: true},
+  // {path: '/register', component: () => import('@/views/register/index'), hidden: true},
+  // {path: '/404', component: () => import('@/views/404'), hidden: true},
   {
     path: '',
     component: Layout, // 1.在主页面的 <router-view/> 中渲染基本布局组件 Layout
     redirect: '/home',
     children: [
+      {
+        path: 'login',
+        name: 'login',
+        component: () => import('@/views/login/index'),//2.Appmain 中的 <router-view/> 中渲染指定组件
+        meta: {title: '登录', icon: 'login'}
+      },
+      {
+        path: 'register',
+        name: 'register',
+        component: () => import('@/views/register/index'),//2.Appmain 中的 <router-view/> 中渲染指定组件
+        meta: {title: '注册', icon: 'register'}
+      },
+      {
+        path: '404',
+        name: '404',
+        component: () => import('@/views/404'),//2.Appmain 中的 <router-view/> 中渲染指定组件
+        meta: {title: '404', icon: '404'}
+      },
     {
       path: 'home',
       name: 'home',
@@ -48,10 +66,10 @@ export const constantRouterMap = [
       meta: {title: '个人主页', icon: 'userhome'}
     },
     {
-      path: 'qanda',
-      name: 'qanda',
-      component: () => import('@/views/qanda/index'),//2.Appmain 中的 <router-view/> 中渲染指定组件
-      meta: {title: '问答', icon: 'qanda'}
+      path: 'wenda',
+      name: 'wenda',
+      component: () => import('@/views/wenda/index'),//2.Appmain 中的 <router-view/> 中渲染指定组件
+      meta: {title: '问答', icon: 'wenda'}
     },
     {
       path: 'blog',

@@ -1,57 +1,60 @@
 <template>
   <div class="app-container">
+    <div style="padding: 20px;">
     <div class="blog-option ">
-          <el-button class="blog-option-btn" type="warning" :icon="blog.islike ? 'el-icon-star-on':'el-icon-star-off'" circle @click="handleLikeAdd(blog.id)">
-          <br/>{{blog.islike ? '已赞':'点赞'}}
-          </el-button><br/>
-          <el-button class="blog-option-btn" type="warning" icon="el-icon-star-on" circle>
-          <br/>已赞
-          </el-button><br/>
-          <el-button class="blog-option-btn" type="warning" icon="el-icon-star-off" circle>
-          <br/>点赞
-          </el-button><br/>
-      </div>
-    <div class="blog-main">
-      
-      
-      <el-card class="blog-content">
-        <label style="font-size:35px; font-weight:bold;">{{blog.title}}</label>
-        <br/><br/>
-        <div class="blog-stat" style="background-color: #f5f6f7;padding:5px 10px">
-          <!-- <div class="blog-stat" > -->
-          <el-tag class="blog-flag" size="mini">{{
-                    blog.flag == 0 ? "转载" : "原创"
-                  }}</el-tag>
-          <label class="blog-nickname">{{blog.nickname}}</label> 
-          <label class="blog-date">{{blog.updateTime | formatDateTime}}</label> 
-          
-                  <i class="el-icon-view"></i>{{blog.views}}
-                      
-                  <i class="el-icon-star-off" ></i>{{blog.likes}}
-
-          <br/>
-          <el-tag class="blog-tags" size="mini" type="info" v-for="item in blog.tags" :key="item.id">{{
-                    item.name
-                  }}</el-tag>
+            <el-button class="blog-option-btn" type="warning" :icon="blog.islike ? 'el-icon-star-on':'el-icon-star-off'" circle @click="handleLikeAdd(blog.id)">
+            <br/>{{blog.islike ? '已赞':'点赞'}}
+            </el-button><br/>
+            <el-button class="blog-option-btn" type="warning" icon="el-icon-star-on" circle>
+            <br/>已赞
+            </el-button><br/>
+            <el-button class="blog-option-btn" type="warning" icon="el-icon-star-off" circle>
+            <br/>点赞
+            </el-button><br/>
         </div>
-        <br/><br/>
-        <mavon-editor
-        class="md"
-        :value="blog.content"
-        :subfield="false"
-        :defaultOpen="'preview'"
-        :navigation="false"
-        :toolbarsFlag="false"
-        :editable="false"
-        :scrollStyle="true"
-        :ishljs="true"
-        :boxShadow="false"
-        :previewBackground="'#ffffff'"
-        style="border: 1px solid #ffffff;padding: 0px 0px 5px 5px;"
-      />
+      <div class="blog-main">
+        
+        
+        <el-card class="blog-content">
+          <label style="font-size:35px; font-weight:bold;">{{blog.title}}</label>
+          <br/><br/>
+          <div class="blog-stat" style="background-color: #f5f6f7;padding:5px 10px">
+            <!-- <div class="blog-stat" > -->
+            <el-tag class="blog-flag" size="mini">{{
+                      blog.flag == 0 ? "转载" : "原创"
+                    }}</el-tag>
+            <label class="blog-nickname">{{blog.nickname}}</label> 
+            <label class="blog-date">{{blog.updateTime | formatDateTime}}</label> 
+            
+                    <i class="el-icon-view"></i>{{blog.views}}
+                        
+                    <i class="el-icon-star-off" ></i>{{blog.likes}}
 
-      </el-card>
+            <br/>
+            <el-tag class="blog-tags" size="mini" type="info" v-for="item in blog.tags" :key="item.id">{{
+                      item.name
+                    }}</el-tag>
+          </div>
+          <br/><br/>
+          <mavon-editor
+          class="md"
+          :value="blog.content"
+          :subfield="false"
+          :defaultOpen="'preview'"
+          :navigation="false"
+          :toolbarsFlag="false"
+          :editable="false"
+          :scrollStyle="true"
+          :ishljs="true"
+          :boxShadow="false"
+          :previewBackground="'#ffffff'"
+          style="border: 1px solid #ffffff;padding: 0px 0px 5px 5px;"
+        />
+
+        </el-card>
+      </div>
     </div>
+   
   </div>
 </template>
 
@@ -121,6 +124,12 @@ export default {
 </script>
 
 <style scoped>
+
+.app-container {
+  background: url("../../assets/images/04.jpg")  ;
+  background-size: 150%;
+}
+
 .blog-main {
   display: flex; /*Flex布局*/
   justify-content: center;

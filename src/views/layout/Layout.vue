@@ -16,10 +16,11 @@
         @select="handleSelect"
         
       >
-
+      <!--  <img :src="jzone"  alt="icon" class="jzone"/>  -->
+      <label class="jzone">Jzone</label>
         <!-- <el-menu-item index="/home" style="margin:0 50px 0 500px;" >首页</el-menu-item>-->
         <el-menu-item index="/blogs" style="margin:0 50px 0 500px;">博文</el-menu-item>
-        <el-menu-item index="/qanda" style="margin:0 50px 0 0;">问答</el-menu-item>
+        <el-menu-item index="/wenda" style="margin:0 50px 0 0;">问答</el-menu-item>
         <!-- <el-menu-item index="/home" style="margin:0 50px 0 0;">小组</el-menu-item> -->
 
         <template v-if="name != null && name != ''">
@@ -50,7 +51,6 @@
           </el-dropdown-menu>
         </el-dropdown>
         </template>  
-        
 
          <el-button class="login-btn-container" round v-else @click="toLogin">登录/注册</el-button>
 
@@ -65,7 +65,7 @@
 <script>
 import { Navbar, AppMain } from "./components";
 import { mapGetters } from 'vuex'
-
+// import jzone from '../../assets/images/jzone-favicon.png'
 
 export default {
   name: "layout",
@@ -82,6 +82,7 @@ export default {
   },
   data() {
     return {
+      // jzone, 
       activeIndex: "",
     };
   },
@@ -112,6 +113,17 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 @import "src/styles/mixin.scss";
+
+.jzone{
+  // width:50px;
+  // height:50px;
+  color: #ffffff;
+  font-size: 42px;
+  position: absolute;
+  left: 250px;
+  margin-top: 5px;
+}
+
 .app-wrapper {
   @include clearfix;
   position: relative;

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-container">
     <el-card class="login-form-layout">
       <el-form autoComplete="on"
                :model="loginForm"
@@ -45,8 +45,8 @@
       </el-form>
       <label :underline="false" style="font-size:12px;color:#606266;" @click="handleRegister">注册账号</label>
     </el-card>
-    <img :src="login_center_bg" class="login-center-layout">
-
+ <!--    -->
+<img :src="login_center_bg" class="login-center-layout">
     
   </div>
 </template>
@@ -55,7 +55,7 @@
 
   import {isvalidUsername} from '@/utils/validate';
   import {setCookie} from '@/utils/support';
-  import login_center_bg from '@/assets/images/login_center_bg.png'
+  import login_center_bg from '@/assets/images/02.jpg'
   
   export default {
     name: 'login',
@@ -128,7 +128,10 @@
 </script>
 
 <style scoped>
+
+
   .login-form-layout {
+    
     position: absolute;
     left: 0;
     right: 0;
@@ -142,11 +145,11 @@
   }
 
   .login-center-layout {
-    background: #409EFF;
+ 
     width: auto;
     height: auto;
     max-width: 100%;
     max-height: 100%;
-    margin-top: 200px;
+
   }
 </style>

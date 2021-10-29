@@ -9,7 +9,7 @@
 <script>
  
   export default {
-    name: 'qanda',
+    name: 'wenda',
     data() {
       return {
         

@@ -1,6 +1,6 @@
 <template>
-  <div class="app-container">
-    <div class="blogs">
+  <div class="app-container" >
+    <div class="blogs" >
       <div class="blog-card">
         <el-card
           v-for="blog in blists"
@@ -156,11 +156,16 @@ export default {
 
 <style scoped>
 
-
+.app-container {
+  background: url("../../assets/images/03.jpg")  ;
+  background-size: 150%;
+}
 
 .blogs {
   display: flex; /*Flex布局*/
   justify-content: center;
+  padding: 20px;
+  
 }
 
 .blog-card {

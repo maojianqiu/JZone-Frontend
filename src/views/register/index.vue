@@ -111,7 +111,7 @@
 
 <script>
 import { isvalidUsername, isvalidateTelephone } from "@/utils/validate";
-import login_center_bg from "@/assets/images/login_center_bg.png";
+import login_center_bg from "@/assets/images/02.jpg";
 import { getAuthCode, register} from "@/api/mem_login";
 
 export default {
@@ -268,11 +268,11 @@ export default {
 }
 
 .login-center-layout {
-  background: #409eff;
+
   width: auto;
   height: auto;
   max-width: 100%;
   max-height: 100%;
-  margin-top: 200px;
+
 }
 </style>

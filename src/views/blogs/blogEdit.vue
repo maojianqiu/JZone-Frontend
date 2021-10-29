@@ -1,7 +1,6 @@
 <template>
-  <div class="app-container">
-    <div>
-      <h1>博文blogeditblogeditblogedit</h1>
+  <div >
+    <div class="app-container">
       <blog-details :is-edit='true'></blog-details>
     </div>
   </div>
@@ -26,5 +25,10 @@
 </script>
 
 <style scoped>
-  
+.app-container {
+  padding-top:1px;
+  background: url("../../assets/images/04.jpg")  ;
+  background-size: 150%;
+  height:800px;
+}
 </style>
