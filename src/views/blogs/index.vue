@@ -208,8 +208,11 @@ export default {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+      /* autoprefixer: off */  
+      -webkit-box-orient: vertical;  
+      /* autoprefixer: on */  
   line-clamp: 2;
-  -webkit-box-orient: vertical;
+  
 }
 
 

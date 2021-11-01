@@ -528,7 +528,7 @@ export default {
 };
 </script>
 
-<style >
+<style scoped>
 
 .app-container {
   background: url("../../assets/images/06.jpg")  ;

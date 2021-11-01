@@ -24,7 +24,7 @@
   }
 </script>
 
-<style >
+<style scoped>
   .app-container {
     padding-top:1px;
     height:800px;
