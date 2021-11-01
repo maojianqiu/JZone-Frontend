@@ -1,22 +1,37 @@
 <template>
   <div class="app-container">
     <div>
-      <h1>博文！！！！</h1>
+      <el-card class="box-card">
+        <div  class="text">
+          待上线~
+        </div>
+      </el-card>
+    </div>
+    <comment :comments="commentData"></comment>
+    <div  class="text">
+          待上线~
     </div>
   </div>
 </template>
 
 <script>
- 
+  import * as CommentData from '../comment/mockdata'
+  import comment from '../comment/comment'
+
   export default {
     name: 'wenda',
+    components: {
+      comment
+    },
     data() {
-      return {
-        
+       return {
+        commentData: []
       }
     },
-    created(){
-      
+    created() {
+      console.log("----------");
+      this.commentData = CommentData.comment.data;
+      console.log(CommentData.comment.data);
     },
     methods:{
 

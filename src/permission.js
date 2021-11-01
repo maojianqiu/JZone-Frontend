@@ -9,7 +9,7 @@ const whiteList = ['/login','/register','/bloghome'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
   NProgress.start()
 
-  console.log("``````````");
+  // console.log("``````````");
   console.log(to.path);
   if (getToken()) {
     console.log("@@@@@");
@@ -19,13 +19,13 @@ router.beforeEach((to, from, next) => {
     }
     store.dispatch('GetInfo').then(res => { // 拉取用户信息
     })
-    console.log("@3");
+    // console.log("@3");
     next();
     NProgress.done();
   }else{
-    console.log("@1");
+    // console.log("@1");
     if (to.path === '/usermanage') {
-      console.log("@2");
+      // console.log("@2");
       Message.error('请先登录')
       next({ path: '/login' })
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it

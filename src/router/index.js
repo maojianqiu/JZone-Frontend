@@ -26,7 +26,7 @@ export const constantRouterMap = [
   {
     path: '',
     component: Layout, // 1.在主页面的 <router-view/> 中渲染基本布局组件 Layout
-    redirect: '/home',
+    redirect: '/blogs',
     children: [
       {
         path: 'login',
@@ -46,12 +46,12 @@ export const constantRouterMap = [
         component: () => import('@/views/404'),//2.Appmain 中的 <router-view/> 中渲染指定组件
         meta: {title: '404', icon: '404'}
       },
-    {
-      path: 'home',
-      name: 'home',
-      component: () => import('@/views/home/index'),//2.Appmain 中的 <router-view/> 中渲染指定组件
-      meta: {title: '首页', icon: 'home'}
-    },
+    // {
+    //   path: 'home',
+    //   name: 'home',
+    //   component: () => import('@/views/home/index'),//2.Appmain 中的 <router-view/> 中渲染指定组件
+    //   meta: {title: '首页', icon: 'home'}
+    // },
     {
       path: 'blogs',
       name: 'blogs',
