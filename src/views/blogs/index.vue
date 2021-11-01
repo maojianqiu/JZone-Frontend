@@ -18,11 +18,11 @@
             </div>
 
             <div class="blog-ums-stat" >
-              <div class="blog-ums-stat"  @click="handleblogMemCheck(blog.umsId)">
+              <div class="blog-ums-stat"  @click="handleblogMemCheck(blog.umsId)" style="cursor:pointer;">
                 <img
                 style=" height: 100%;border-radius:20%;"
                 :src="blog.icon"/>
-                <label class="blog-memname" >{{blog.nickname}}</label>
+                <label class="blog-memname" style="cursor:pointer;" >{{blog.nickname}}</label>
               </div>
               <label class="blog-updatetime" >{{ blog.updateTime | formatDateTime}}</label>
               <div class="blog-stat" >
@@ -54,7 +54,7 @@
               </div>
               <div  class="copyright" >
                 Hello World !
-                你好啊，世界 ！
+                你好，世界 ！
               </div>
             </el-card>
       </div>

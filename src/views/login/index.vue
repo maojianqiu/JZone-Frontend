@@ -36,6 +36,16 @@
           </span>
           </el-input>
         </el-form-item>
+        <!--    <div class="checkbox-label" style="font-size:11px;margin-bottom:20px;">
+              <el-checkbox v-model="checked" change="handlePolicyCheck()">
+                  <span>登录即代表您已同意同意 <a href="https://imgtu.com/page/tos" style="color: #409eff;">服务条款</a> 和 <a href="https://imgtu.com/page/privacy" style="color: #409eff;">隐私政策</a></span>
+              </el-checkbox>
+            </div> -->
+        <div style="font-size:11px;margin-bottom:20px;">
+          <span >登录即代表您已同意 <a href="http://localhost:8090/copyright"  rel="noreferrer" target="_blank" style="color: #409eff;">《版权声明》</a> 和 <a href="http://localhost:8090/policy"  rel="noreferrer" target="_blank" style="color: #409eff;">《服务条款》</a></span>
+        </div>
+       
+        
         <el-form-item style="margin-bottom: 60px;text-align: center">
           <el-button style="width: 45%" type="primary" :loading="loading" @click="handleLogin">
             登录
@@ -68,12 +78,14 @@
         }
       };
       const validatePass = (rule, value, callback) => {
+        console.log(rule);
         if (value.length < 3) {
           callback(new Error('密码不能小于3位'))
         } else {
           callback()
         }
       };
+      
       return {
         loginForm: {
           username: '',
@@ -81,13 +93,15 @@
         },
         loginRules: {
           username: [{required: true, trigger: 'blur', validator: validateUsername}],
-          password: [{required: true, trigger: 'blur', validator: validatePass}]
+          password: [{required: true, trigger: 'blur', validator: validatePass}],
         },
         loading: false,
         pwdType: 'password',
         login_center_bg,
         dialogVisible:false,
-        supportDialogVisible:false
+        supportDialogVisible:false,
+
+        checked: true,
       }
     },
     methods: {
@@ -98,7 +112,20 @@
           this.pwdType = 'password'
         }
       },
+      // handlePolicyCheck(){
+      //   this.checked = !this.checked;
+      // },
+
       handleLogin() {
+        if(this.checked == false){
+           this.$message({
+              showClose: true,
+              message: '请阅读服务条款并同意~',
+              type: 'warning'
+            });
+            return;
+        }
+
         //element-ui 表單驗證
         this.$refs.loginForm.validate(valid => {
           if (valid) {
@@ -112,6 +139,7 @@
               console.log("==========home");
             }).catch(() => {
               this.loading = false
+               this.$message.error('用户名或密码输入错误~');
             })
           } else {
             console.log('参数验证不合法！');

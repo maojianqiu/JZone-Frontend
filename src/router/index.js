@@ -72,6 +72,18 @@ export const constantRouterMap = [
       meta: {title: '问答', icon: 'wenda'}
     },
     {
+      path: 'copyright',
+      name: 'copyright',
+      component: () => import('@/views/copyright/index'),//2.Appmain 中的 <router-view/> 中渲染指定组件
+      meta: {title: '问答', icon: 'copyright'}
+    },
+    {
+      path: 'policy',
+      name: 'policy',
+      component: () => import('@/views/policy/index'),//2.Appmain 中的 <router-view/> 中渲染指定组件
+      meta: {title: '问答', icon: 'policy'}
+    },
+    {
       path: 'blog',
       name: 'blog',
       component: () => import('@/views/blogs/blogcheck'),//2.Appmain 中的 <router-view/> 中渲染指定组件

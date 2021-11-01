@@ -33,6 +33,13 @@ export function bloglist(params) {
     })
   }
 
+  export function getBlogDel(params) {
+    return request({
+      url: '/bmsblog/blogdel',
+      method: 'get',
+      params:params
+    })
+  }
 
 
   

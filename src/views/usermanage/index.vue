@@ -1,19 +1,21 @@
 <template>
   <div class="app-container">
     <div class="homeMain" style="padding: 20px;">
-      <el-button
+      <!-- <el-button
       style="position: absolute; right: 35px"
       @click="toBlogAdd"
-      >发布博文</el-button
-      >
+      >发布博文</el-button> -->
       <el-tabs type="border-card" tabPosition="left" @tab-click="clickTab">
         <!-- 博文 -->
         <el-tab-pane label="博文">
 
-
+          <el-button
+          style=""
+          @click="toBlogAdd"
+          >发布博文</el-button
+          >
           <div class= "blogStatus">
-
-          <div class="blogs-card">
+            <div class="blogs-card">
                   
                   <div class="blog-card" v-for="item in blists" :key="item.id">
                     <el-card shadow="hover">
@@ -48,7 +50,7 @@
                           <el-button type="text" @click="toBlogEdit(item.id)"
                             >编辑</el-button
                           >
-                          <el-button type="text" @click="isDelete(item.id)"
+                          <el-button type="text" @click="isBlogDelete(item.id)"
                             >删除</el-button
                           >
                         </div>
@@ -76,11 +78,11 @@
         <el-tab-pane label="分类">
           
           <el-button
-              @click="toClassifyAdd"
+              @click="toClassifyAdd" 
               >新增分类</el-button
             >
           <div class="classify-card">
-            <div class="classify-card" v-for="item in classList" :key="item.id">
+            <div class="classify-card" v-for="item in classList" :key="item.id" style="margin:10px auto;">
               <el-card shadow="hover">
                 <div class="" >
                   <label class="classify-title">{{ item.name }}</label>
@@ -98,14 +100,35 @@
           </div>
         </el-tab-pane>
 
-        <!-- 账号信息 -->
+        <!-- 账号信息-->
         <el-tab-pane label="账号信息">
-          <div class="blog-icon">
-            <el-image
-              style="width: 100px; height: 100px"
-              src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
-              fit="contain"
-            ></el-image>
+          <div class="blog-icon" >
+
+            <div class="wrap">
+              <ul class="img_container">
+                <li v-show="member.icon" style="position: relative;cursor:pointer;" >
+                  <img class="show_img" :src="member.icon" alt="" />
+                  <span class="repeat_img" @click="UploadImg()" >
+                    <span style="font-size: 14px; line-height: 22px; color: white"
+                      >修改图片</span>
+                  </span>
+                </li>
+                <li v-show="!member.icon" @click="UploadImg()">
+                  <div class="img_upload">
+                   
+                    <div class="upload_info">只支持JPG/PNG文件，大小不超过1M</div>
+                    <input
+                      ref="image"
+                      type="file"
+                      name=""
+                      id=""
+                      style="display: none"
+                      @change="updateMemberIcon"
+                    />
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
           <el-form
             :model="member"
@@ -177,11 +200,11 @@
     </div>
 
     <!-- 删除弹框提示 -->
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="40%">
+    <el-dialog title="提示" :visible.sync="dialogBlogDeleteVisible" width="40%">
       <span>是否删除该博文？</span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
+        <el-button @click="dialogBlogDeleteVisible = false ; deleteBlogId = null">取 消</el-button>
+        <el-button type="primary" @click="handleBlogDelete()"
           >删 除</el-button
         >
       </span>
@@ -191,8 +214,7 @@
     <el-dialog
       title="添加博文分类"
       :visible.sync="dialogVisible"
-      width="40%"
-    >
+      width="40%">
       <el-form
         :model="classify"
         ref="classifyForm"
@@ -227,7 +249,7 @@
 <script>
 import {classList,createClassify,updateClassify,deleteClassify,} from "@/api/bmsb";
 import { getInfo, updateMember } from "@/api/mem_login";
-import { bloglist } from "@/api/bmsb";
+import { bloglist ,getBlogDel} from "@/api/bmsb";
 import { formatDate } from "@/utils/date";
 
 const defaultListQuery = {
@@ -261,9 +283,6 @@ export default {
         birthday: "",
         city: "",
         job: "",
-     
-     
-     
      },
       classify:{
         id: null,
@@ -273,7 +292,11 @@ export default {
       classList:[],
 
       dialogVisible: false, //是否显示对话框/弹框
+      dialogBlogDeleteVisible:false,
+      deleteBlogId:null,
       listLoading: false,
+
+      iconfile:[],
     };
   },
    filters: {
@@ -347,27 +370,35 @@ export default {
         query: { id: id } 
       });
       window.open(routeData.href, '_blank');
-      // this.$router.push({ path: "/blog", query: { id: id } });
     },
-    isDelete(id) {
+    isBlogDelete(id) {
       console.log(id);
-      this.dialogVisible = true;
-      // this.$router.push({path:'/',query:{id:}});
+      this.deleteBlogId = id;
+      this.dialogBlogDeleteVisible = true;
     },
-    handleBlogStatusClick(tab, event) {
-        this.cleanlistQuery();
-
-        const params = {
-          state:this.blogStatusActiveName
-        };
-        
-        bloglist(params)
-        .then((response) => {
-          this.blists = response.data.list;
-          this.total = response.data.total;
+    handleBlogDelete(){
+      let p = { id : this.deleteBlogId};
+      getBlogDel(p).then((response) => {
+          this.handleCurrentChange();
+          this.deleteBlogId = null;
+          this.dialogBlogDeleteVisible = false;
         })
         .catch((error) => {});
     },
+    // handleBlogStatusClick(tab, event) {
+    //     this.cleanlistQuery();
+
+    //     const params = {
+    //       state:this.blogStatusActiveName
+    //     };
+        
+    //     bloglist(params)
+    //     .then((response) => {
+    //       this.blists = response.data.list;
+    //       this.total = response.data.total;
+    //     })
+    //     .catch((error) => {});
+    // },
 
     handleCurrentChange(val) {
       console.log("handleCurrentChange");
@@ -465,6 +496,33 @@ export default {
           });
         })
         .catch((error) => {});
+    },
+
+    // 点击请求input的click()事件
+    UploadImg() {
+      this.$refs.image.click();
+    },
+  /**
+     将图片上传到服务器，返回地址替换到md中
+     注意：上传图片操作，可能会向COS中存储无用的图片，需要删除，现有逻辑：
+        1.上传操作，先缓存图片，缓存成功就使用待存储的url代替原名，保留最终的图片及url，
+            在调用接口批量存储（cos暂未找到批量操作，若实现需要批量调用接口）
+    */
+    updateMemberIcon(e) {
+      const file = e.target.files[0];
+      console.log(file);
+      var formdata = new FormData();
+      formdata.append('file', file);
+
+      cosuploadImg(formdata).then((response) => {
+        let url = response.data.replace(/\\/g,"/")
+        //第二步.将返回的url替换到文本原位置 这里是必须要有的
+        this.member.icon = url;
+        this.$message.success('修改成功')
+      })
+      .catch((error) => {
+        this.$message.error('修改失败')
+      });
     },
   },
 };
@@ -587,9 +645,56 @@ export default {
   margin: auto 5px ;
 }
 .blog-stat{
-
   font-size: 10px;
   margin: auto 10px ;
+}
 
+/*----------blog-icon---------*/
+.wrap {
+  padding: 30px;
+}
+
+.img_container {
+  height: auto;
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+}
+.img_container li {
+  width: 80px;
+  height: 80px;
+
+}
+
+.img_container li > .show_img {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+}
+.img_upload {
+  text-align: center;
+  cursor: pointer;
+}
+.img_upload img {
+  width: 31px;
+  height: 31px;
+  margin: 24px 0 8px 0;
+}
+.upload_info {
+  font-size: 10px;
+  line-height: 22px;
+  color: rgba(0, 0, 0, 0.3);
+}
+.repeat_img {
+  position: absolute;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  left: 0;
+  right: 0;
+  top: 24px;
 }
 </style>

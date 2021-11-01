@@ -63,7 +63,7 @@
               </div>
               <div  class="copyright" >
                 Hello World !
-                你好啊，世界 ！
+                你好，世界 ！
               </div>
             </el-card>
       </div>

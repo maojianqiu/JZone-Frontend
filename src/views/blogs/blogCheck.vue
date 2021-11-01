@@ -5,11 +5,8 @@
             <el-button class="blog-option-btn" type="warning" :icon="blog.islike ? 'el-icon-star-on':'el-icon-star-off'" circle @click="handleLikeAdd(blog.id)">
             <br/>{{blog.islike ? '已赞':'点赞'}}
             </el-button><br/>
-            <el-button class="blog-option-btn" type="warning" icon="el-icon-star-on" circle>
-            <br/>已赞
-            </el-button><br/>
-            <el-button class="blog-option-btn" type="warning" icon="el-icon-star-off" circle>
-            <br/>点赞
+            <el-button class="blog-option-btn" type="warning" icon="el-icon-chat-line-square" circle>
+            <br/>评论
             </el-button><br/>
         </div>
       <div class="blog-main">
@@ -23,7 +20,7 @@
             <el-tag class="blog-flag" size="mini">{{
                       blog.flag == 0 ? "转载" : "原创"
                     }}</el-tag>
-            <label class="blog-nickname">{{blog.nickname}}</label> 
+            <label class="blog-nickname" @click="handleblogMemCheck(blog.umsId)" style="cursor:pointer;">{{blog.nickname}}</label> 
             <label class="blog-date">{{blog.updateTime | formatDateTime}}</label> 
             
                     <i class="el-icon-view"></i>{{blog.views}}
@@ -62,7 +59,7 @@
               </div>
               <div  class="copyright" >
                 Hello World !
-                你好啊，世界 ！
+                你好，世界 ！
               </div>
       </div>
 
@@ -129,7 +126,15 @@ export default {
           duration: 3 * 1000
         })
       });
-    }
+    },
+
+    handleblogMemCheck(id) {
+      let routeData = this.$router.resolve({
+        name: "bloghome",
+        query: { id: id } 
+      });
+      window.open(routeData.href, '_blank');
+    },
   },
 };
 </script>

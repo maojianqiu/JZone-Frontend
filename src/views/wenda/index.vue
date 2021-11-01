@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
-    <div>
-      <el-card class="box-card">
-        <div  class="text">
-          待上线~
-        </div>
+    <div class ="blogs">
+      <div class="blog-card">
+        <el-card >
+          <div  class="text">
+            待上线~
+          </div>
       </el-card>
+      </div>
     </div>
-    <comment :comments="commentData"></comment>
-    <div  class="text">
-          待上线~
-    </div>
+    <!-- <comment :comments="commentData"></comment> -->
+    
   </div>
 </template>
 
@@ -41,4 +41,28 @@
 
 <style scoped>
   
+  .app-container {
+    background: url("../../assets/images/06.jpg")  ;
+    background-size: 150%;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display:flex;
+    flex-direction:column;
+  }
+
+.blogs {
+  display: flex; /*Flex布局*/
+  justify-content: center;
+  padding: 20px;
+  
+}
+
+.blog-card {
+  width: 50%;
+  position: relative;
+  margin-right: 20px;
+}
+
+
 </style>

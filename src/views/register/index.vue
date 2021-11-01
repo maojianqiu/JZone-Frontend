@@ -90,6 +90,10 @@
               {{(authCode == ""||authCode==null) ? '获取验证码': authCode}}
               </el-button>
         </el-form-item>
+        <div style="font-size:11px;margin-bottom:20px;">
+          <span >注册即代表您已同意 <a href="http://localhost:8090/copyright"  rel="noreferrer" target="_blank" style="color: #409eff;">《版权声明》</a> 和 <a href="http://localhost:8090/policy"  rel="noreferrer" target="_blank" style="color: #409eff;">《服务条款》</a></span>
+        </div>
+
         <el-form-item style="margin-bottom: 60px; text-align: center">
           <el-button
             style="width: 45%"

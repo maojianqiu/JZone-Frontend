@@ -17,10 +17,12 @@
         
       >
       <!--  <img :src="jzone"  alt="icon" class="jzone"/>  -->
-      <label class="jzone">Jzone</label>
+      <label class="jzone" @click="handleClikeLogo()" style="cursor:pointer;">Jzone</label>
         <!-- <el-menu-item index="/home" style="margin:0 50px 0 500px;" >首页</el-menu-item>-->
-        <el-menu-item index="/blogs" style="margin:0 50px 0 500px;">博文</el-menu-item>
+        <el-menu-item index="/blogs" style="margin:0 50px 0 200px;">博文</el-menu-item>
         <el-menu-item index="/wenda" style="margin:0 50px 0 0;">问答</el-menu-item>
+        <el-menu-item index="/copyright" style="margin:0 50px 0 0;">版权声明</el-menu-item>
+        <el-menu-item index="/policy" style="margin:0 50px 0 0;">服务条款</el-menu-item>
         <!-- <el-menu-item index="/home" style="margin:0 50px 0 0;">小组</el-menu-item> -->
 
         <template v-if="name != null && name != ''">
@@ -87,6 +89,10 @@ export default {
     };
   },
   methods: {
+    handleClikeLogo(){
+      this.$router.push('/blogs');
+    },
+
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
       this.$router.push({ path: key })
@@ -120,7 +126,7 @@ export default {
   color: #ffffff;
   font-size: 42px;
   position: absolute;
-  left: 250px;
+  left: 50px;
   margin-top: 5px;
 }
 
