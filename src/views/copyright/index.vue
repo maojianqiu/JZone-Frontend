@@ -6,7 +6,7 @@
             <h1>本站版权申明</h1>
         </div>
         <div class="bolg-com" >
-        <p>本站采用 “署名-相同方式共享 4.0 国际 CC BY-SA 4.0” 进行版权授权</p>
+            <p>本站采用 “署名-相同方式共享 4.0 国际 CC BY-SA 4.0” 进行版权授权</p>
             <p>本站遵守<a title="CC 4.0 BY-SA 版权协议" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="noopener">CC 4.0 BY-SA 版权协议</a>，你可以在本协议框架下转载本站任何文章。但请知晓：本站所有授权和版权均<span style="color: #ff0000;"><strong>不得超出</strong></span> “署名-相同方式共享 4.0 国际 CC BY-SA 4.0” 的授权范围！</p>
 
             
@@ -25,9 +25,9 @@
             <p><img src="https://pianshen.com/cp3.png" style="width:20%;"></p>
             <h1><a id="update20200924"></a>更新（2021-11-01）</h1>
         </div>
-      </div>
+    </div>
     
-    <div class="copy-bottom">
+      <div class="copy-bottom">
               <div  class="copyright" style="">
                 Copyright © 2021-2022 - All Rights Reserved - 备案号 
                 <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502030143" rel="noreferrer" target="_blank">11010502030143</a>
@@ -65,6 +65,7 @@
 .app-container {
      padding-top:1px;
     height: 100%;
+    width: 100%;
   background: url("../../assets/images/01.jpg")  ;
   background-size: 150%;
 }

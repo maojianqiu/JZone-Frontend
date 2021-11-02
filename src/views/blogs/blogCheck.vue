@@ -120,11 +120,11 @@ export default {
         
         console.log(this.islikeresult);
       }).catch((error) => {
-        this.$message({
-          message: '操作失败，请稍后操作',
-          type: 'error',
-          duration: 3 * 1000
-        })
+        // this.$message({
+        //   message: '操作失败，请稍后操作',
+        //   type: 'error',
+        //   duration: 3 * 1000
+        // })
       });
     },
 

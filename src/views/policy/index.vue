@@ -68,10 +68,17 @@
 
 <style scoped>
 .app-container {
-     padding-top:1px;
-   height: 100%;
+  padding-top:1px;
+  padding-bottom:60px;
+
   background: url("../../assets/images/02.jpg")  ;
   background-size: 150%;
+
+      position: fixed;
+    height: 100%;
+    width: 100%;
+    display:flex;
+    flex-direction:column;
 }
 
 .b-right{
@@ -94,6 +101,7 @@
 
 }
 .copy-bottom{
+  width: 100%;
   height: 60px;
   background-color: #545c64;
   margin:0 auto;

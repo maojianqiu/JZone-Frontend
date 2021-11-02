@@ -209,25 +209,33 @@ export default {
           //提交异步store对象，commit是同步
           // .then 是promise 回调函数的；dispatch返回的就是promise
           register(this.loginForm)
-            .then(() => {
+            .then((response) => {
               this.loading = false;
-              
+              if(response.data == -1){
+                this.$message({
+                  message: response.message,
+                  type: "error",
+                });
+                return ;
+              }
               this.$router.push({ path: "/login" });
+              this.$message({
+                message: "注册成功！",
+                type: "success",
+              });
+
             })
             .catch(() => {
               this.$message.error("系统异常，请重新操作");
               this.loading = false;
             });
 
-          this.$message({
-            message: "注册成功！",
-            type: "success",
-          });
+          
         } else {
-          this.$message({
-            message: "参数验证不合法哦~",
-            type: "warning",
-          });
+          // this.$message({
+          //   message: "参数验证不合法哦~",
+          //   type: "warning",
+          // });
           return false;
         }
       });

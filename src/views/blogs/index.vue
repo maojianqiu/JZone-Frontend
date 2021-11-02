@@ -42,7 +42,7 @@
               <div slot="header">
                 <span>推荐博文</span>
               </div>
-              <div v-for="blog in blists" :key="blog.id" class="bolg-com-btitle">
+              <div v-for="(blog,index) in blists.slice(0,5)  " :key="blog.id" class="bolg-com-btitle">
                 {{ blog.title }}
               </div>
             </el-card>
@@ -187,7 +187,7 @@ export default {
 }
 
 .blog-title {
-  font-size: 16px;
+  font-size: 20px;
 }
 /*
 .blog-card .blog-option {
@@ -199,7 +199,7 @@ export default {
 .blog-description {
   margin-top: 10px; 
   margin-bottom: 10px; 
-  font-size: 12px;
+  font-size: 14px;
   color: #525457;
   width: 100%;
   line-height:20px;
