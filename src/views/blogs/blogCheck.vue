@@ -144,6 +144,7 @@ export default {
 .app-container {
   background: url("../../assets/images/04.jpg")  ;
   background-size: 150%;
+  min-height: 850px;
 }
 
 .blog-main {

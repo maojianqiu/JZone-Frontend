@@ -171,6 +171,7 @@ export default {
 .app-container {
   background: url("../../assets/images/03.jpg")  ;
   background-size: 150%;
+  min-height: 850px;
 }
 
 .blogs {

@@ -5,7 +5,7 @@
         type="text"
         v-model="blog.title"
         placeholder="请输入标题"
-        maxlength="30"
+        maxlength="50"
         show-word-limit
         style="width: 1000px; margin: 0px 0px 10px 0px"
       ></el-input>
@@ -37,13 +37,14 @@
         @imgAdd="imgAdd"
         @imgDel="imgDel"
         @change="change"
-        style="height: 680px"
+        style="height: 750px"
       />
     </div>
 
     <el-dialog
       :title="isEdit ? '保存博文' : '发布博文'"
       :visible.sync="dialogVisible"
+      :modal-append-to-body='false'
       width="40%"
     >
       <el-form :model="blog" ref="blogForm" label-width="150px" size="small">
@@ -270,8 +271,10 @@ export default {
         });
         return;
       }
+      console.log("---1234--");
       this.blog.state = isS;
       this.dialogVisible = true;
+      console.log("---4567--");
       classList().then((response) => {
         this.classifys = response.data.list;
       });
@@ -280,6 +283,7 @@ export default {
           this.blog.classifies = response.data;
         });
       }
+      console.log("---890--");
       
   
     },

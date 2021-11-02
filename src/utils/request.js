@@ -13,9 +13,6 @@ const service = axios.create({
 
 // request拦截器
 service.interceptors.request.use(config => {
-  console.log("---11-----");
-  console.log(config);
-
   if (store.getters.token) {
     config.headers['Authorization'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
   }
@@ -34,11 +31,6 @@ service.interceptors.response.use(
   */
     const res = response.data
     if (res.code !== 200) {
-      // Message({
-      //   message: res.message,
-      //   type: 'error',
-      //   duration: 3 * 1000
-      // })
 
       // 401:未登录;
       if (res.code === 401) {

@@ -30,7 +30,7 @@
 
                       <div class="blog-ums-stat">
                         <el-tag
-                          class="blog-caogao"
+                          class="blog-flag"
                           type="info"
                           size="mini"
                           v-show="item.state == 0 || item.state == 1 || item.state == 3 "
@@ -43,7 +43,6 @@
 
                         <div class="blog-stat" >
                             <i class="el-icon-view"></i>{{item.views}}
-                                
                             <i class="el-icon-star-off"></i>{{item.likes}}
                         </div>
                         <div class="blog-option">
@@ -108,15 +107,13 @@
               <ul class="img_container">
                 <li v-show="member.icon" style="position: relative;cursor:pointer;" >
                   <img class="show_img" :src="member.icon" alt="" />
-                  <span class="repeat_img" @click="UploadImg()" >
-                    <span style="font-size: 14px; line-height: 22px; color: white"
-                      >修改图片</span>
+                  
+                  <span class="repeat_img" @click="uploadImg()" >
+                    
                   </span>
                 </li>
-                <li v-show="!member.icon" @click="UploadImg()">
+                <li v-show="!member.icon" @click="uploadImg()">
                   <div class="img_upload">
-                   
-                    <div class="upload_info">只支持JPG/PNG文件，大小不超过1M</div>
                     <input
                       ref="image"
                       type="file"
@@ -127,7 +124,9 @@
                     />
                   </div>
                 </li>
-              </ul>
+                
+              </ul><div class="upload_info">只支持JPG/PNG文件，大小不超过1M</div>
+                <el-button @click="uploadImg">修 改</el-button>
             </div>
           </div>
           <el-form
@@ -200,7 +199,10 @@
     </div>
 
     <!-- 删除弹框提示 -->
-    <el-dialog title="提示" :visible.sync="dialogBlogDeleteVisible" width="40%">
+    <el-dialog title="提示" 
+      :visible.sync="dialogBlogDeleteVisible"
+      :modal-append-to-body='false'
+      width="40%">
       <span>是否删除该博文？</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogBlogDeleteVisible = false ; deleteBlogId = null">取 消</el-button>
@@ -210,10 +212,11 @@
       </span>
     </el-dialog>
 
-    <!-- 新增博文 -->
+    <!-- 新增博文分类 -->
     <el-dialog
       title="添加博文分类"
       :visible.sync="dialogVisible"
+      :modal-append-to-body='false'
       width="40%">
       <el-form
         :model="classify"
@@ -224,10 +227,10 @@
         <el-form-item label="分类名称：">
           <el-input v-model="classify.name" style="width: 250px"></el-input>
         </el-form-item>
-        <el-form-item label="所属用户：">
+     <!--    <el-form-item label="所属用户：">
           <el-input v-model="classify.umsId" style="width: 250px"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="描述：">
+         <el-form-item label="描述：">
           <el-input
             v-model="classify.description"
             type="textarea"
@@ -250,6 +253,7 @@
 import {classList,createClassify,updateClassify,deleteClassify,} from "@/api/bmsb";
 import { getInfo, updateMember } from "@/api/mem_login";
 import { bloglist ,getBlogDel} from "@/api/bmsb";
+import { cosuploadImg ,cosdelloadImg } from '@/api/api';
 import { formatDate } from "@/utils/date";
 
 const defaultListQuery = {
@@ -499,7 +503,7 @@ export default {
     },
 
     // 点击请求input的click()事件
-    UploadImg() {
+    uploadImg() {
       this.$refs.image.click();
     },
   /**
@@ -517,8 +521,22 @@ export default {
       cosuploadImg(formdata).then((response) => {
         let url = response.data.replace(/\\/g,"/")
         //第二步.将返回的url替换到文本原位置 这里是必须要有的
-        this.member.icon = url;
-        this.$message.success('修改成功')
+        
+        let m = { 
+          id : this.member.id ,
+          icon :  url
+        }
+        updateMember(m)
+        .then((response) => {
+          this.member.icon = url;
+          this.$message({
+            message: "修改成功",
+            type: "success",
+            duration: 1000,
+          });
+        })
+        .catch((error) => {});
+
       })
       .catch((error) => {
         this.$message.error('修改失败')
@@ -533,16 +551,22 @@ export default {
 .app-container {
   background: url("../../assets/images/06.jpg")  ;
   background-size: 150%;
+
+  position: fixed;
+    height: 100%;
+    width: 100%;
+    display:flex;
+    flex-direction:column;
 }
 
 .homeMain {
   width: 70%;
-  margin: auto;
+  margin: 0 auto;
 
 }
 .homeMain .el-tabs {
   
-  height:750px;
+  height:800px;
 
 
 

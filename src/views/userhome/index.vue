@@ -203,6 +203,7 @@ const defaultListQuery = {
   .app-container {
   background: url("../../assets/images/05.jpg")  ;
   background-size: 150%;
+  min-height: 850px;
 }
 
 .blogs {

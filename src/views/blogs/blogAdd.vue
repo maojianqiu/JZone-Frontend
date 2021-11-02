@@ -27,8 +27,13 @@
 <style scoped>
   .app-container {
     padding-top:1px;
-    height:800px;
   background: url("../../assets/images/04.jpg")  ;
   background-size: 150%;
+
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display:flex;
+    flex-direction:column;
 }
 </style>

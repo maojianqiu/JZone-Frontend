@@ -29,6 +29,10 @@
   padding-top:1px;
   background: url("../../assets/images/04.jpg")  ;
   background-size: 150%;
-  height:800px;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display:flex;
+    flex-direction:column;
 }
 </style>
